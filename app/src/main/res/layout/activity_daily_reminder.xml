@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".DailyReminder">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="30dp"
+        android:text="Daily Marking Reminder"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Get a notification to remind about marking the attendance for the days ticked below."
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Switch
+        android:id="@+id/reminderSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/monTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:text="Monday"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/tueTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Tuesday"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/monTv"
+        app:layout_constraintTop_toBottomOf="@+id/monTv" />
+
+    <TextView
+        android:id="@+id/wedTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Wednesday"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tueTv"
+        app:layout_constraintTop_toBottomOf="@+id/tueTv" />
+
+    <TextView
+        android:id="@+id/thuTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Thursday"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/wedTv"
+        app:layout_constraintTop_toBottomOf="@+id/wedTv" />
+
+    <TextView
+        android:id="@+id/friTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Friday"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/thuTv"
+        app:layout_constraintTop_toBottomOf="@+id/thuTv" />
+
+    <TextView
+        android:id="@+id/satTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Saturday"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/friTv"
+        app:layout_constraintTop_toBottomOf="@+id/friTv" />
+
+    <TextView
+        android:id="@+id/sunTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Sunday"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/satTv"
+        app:layout_constraintTop_toBottomOf="@+id/satTv" />
+
+    <CheckBox
+        android:id="@+id/mon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/coloredCheckbox"
+        app:layout_constraintBottom_toBottomOf="@+id/monTv"
+        app:layout_constraintEnd_toEndOf="@+id/reminderSwitch"
+        app:layout_constraintTop_toTopOf="@+id/monTv" />
+
+    <CheckBox
+        android:id="@+id/tue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/coloredCheckbox"
+        app:layout_constraintBottom_toBottomOf="@+id/tueTv"
+        app:layout_constraintStart_toStartOf="@+id/mon"
+        app:layout_constraintTop_toTopOf="@+id/tueTv" />
+
+    <CheckBox
+        android:id="@+id/wed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/coloredCheckbox"
+        app:layout_constraintBottom_toBottomOf="@+id/wedTv"
+        app:layout_constraintStart_toStartOf="@+id/tue"
+        app:layout_constraintTop_toTopOf="@+id/wedTv" />
+
+    <CheckBox
+        android:id="@+id/thu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/coloredCheckbox"
+        app:layout_constraintBottom_toBottomOf="@+id/thuTv"
+        app:layout_constraintStart_toStartOf="@+id/wed"
+        app:layout_constraintTop_toTopOf="@+id/thuTv" />
+
+    <CheckBox
+        android:id="@+id/fri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/coloredCheckbox"
+        app:layout_constraintBottom_toBottomOf="@+id/friTv"
+        app:layout_constraintStart_toStartOf="@+id/thu"
+        app:layout_constraintTop_toTopOf="@+id/friTv" />
+
+    <CheckBox
+        android:id="@+id/sat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/coloredCheckbox"
+        app:layout_constraintBottom_toBottomOf="@+id/satTv"
+        app:layout_constraintStart_toStartOf="@+id/fri"
+        app:layout_constraintTop_toTopOf="@+id/satTv" />
+
+    <CheckBox
+        android:id="@+id/sun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/coloredCheckbox"
+        app:layout_constraintBottom_toBottomOf="@+id/sunTv"
+        app:layout_constraintStart_toStartOf="@+id/sat"
+        app:layout_constraintTop_toTopOf="@+id/sunTv" />
+
+    <TextView
+        android:id="@+id/timeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="TIME :"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/wedTv"
+        app:layout_constraintTop_toBottomOf="@+id/sunTv"
+
+        />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="08:00PM"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeTv"
+        app:layout_constraintEnd_toEndOf="@+id/sun"
+        app:layout_constraintTop_toTopOf="@+id/timeTv" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

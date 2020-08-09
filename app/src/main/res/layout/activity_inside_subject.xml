@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/inSubParentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical"
+    tools:context=".insideSubject">
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/deleteButton"-->
+    <!--        android:layout_width="40dp"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:background="#DB4437"-->
+    <!--        android:onClick="deleteButtonClick"-->
+    <!--        android:tint="#FAFAFA"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/subjectName"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/subjectName"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/subjectName"-->
+    <!--        app:srcCompat="@android:drawable/ic_menu_delete" />-->
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:text="STATUS: "
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/toAttendInSub"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:maxLines="3"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
+        app:layout_constraintStart_toEndOf="@+id/textView6" />
+
+    <Button
+        android:id="@+id/saveNotesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:onClick="saveChangesButtonClick"
+        android:text="SAVE CHANGES"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/notesView" />
+
+    <EditText
+        android:id="@+id/notesView"
+        android:layout_width="290dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="25dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Add Notes here..."
+        android:inputType="textMultiLine"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#C1BCBC"
+        app:layout_constraintBottom_toTopOf="@+id/saveNotesButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar3" />
+
+    <Button
+        android:id="@+id/deleteNotesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="deleteNotesButtonClick"
+        android:text="DELETE NOTES"
+        app:layout_constraintBaseline_toBaselineOf="@+id/saveNotesButton"
+        app:layout_constraintStart_toStartOf="@+id/notesView" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:background="#000000"
+        android:text="@string/set_subject_specific_criterion"
+
+        android:textAppearance="@style/Widget.AppCompat.Spinner.Underlined"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:theme="@style/coloredCheckbox"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <SeekBar
+        android:id="@+id/seekBar3"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="290dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:max="100"
+        android:progress="15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+
+    <TextView
+        android:id="@+id/criteriaInSubText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox"
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintTop_toTopOf="@+id/checkBox" />
+
+    <Button
+        android:id="@+id/plus1Button3"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="+1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/minus1Button3"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar3" />
+
+    <Button
+        android:id="@+id/minus1Button3"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="-1"
+        app:layout_constraintStart_toStartOf="@+id/seekBar3"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar3" />
+
+    <ImageButton
+        android:id="@+id/btnMedia"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/notesView"
+        app:layout_constraintEnd_toEndOf="@+id/notesView"
+        app:layout_constraintTop_toBottomOf="@+id/plus1Button3"
+        android:backgroundTint="@android:color/white"
+        android:background="@drawable/circle"
+        android:foreground="@drawable/ic_media"
+        android:foregroundGravity="center"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
