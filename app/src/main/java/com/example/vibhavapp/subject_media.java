@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
 import android.content.ClipData;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
@@ -56,6 +58,8 @@ import java.util.Date;
 public class subject_media extends AppCompatActivity {
 
     public static final int IMAGE_CAPTURE_REQUEST_CODE = 4;
+    public static final int IMAGE_PICK_REQUEST_CODE = 3;
+    public static final int FILE_PICK_REQUEST_CODE = 5;
     MyDbHandler db;
     String[] images;
     TabLayout tabLayout;
@@ -67,12 +71,13 @@ public class subject_media extends AppCompatActivity {
     FloatingActionsMenu fabImages;
     com.getbase.floatingactionbutton.FloatingActionButton fabCamera;
     com.getbase.floatingactionbutton.FloatingActionButton fabGallery;
+    FloatingActionButton fabDocs;
     String currentPhotoPath;
     ConstraintLayout subMediaParentLayout;
 
 //    PdfViewActivity pdfViewActivity;
 //    Uri selectedFileUri;
-    public static final int IMAGE_PICK_REQUEST_CODE = 3;
+
 //    private Intent intent1;
 
 
@@ -100,20 +105,26 @@ public class subject_media extends AppCompatActivity {
         fabImages = findViewById(R.id.fabImages);
         fabCamera = findViewById(R.id.fabCamera);
         fabGallery = findViewById(R.id.fabGallery);
+        fabDocs = findViewById(R.id.fabDocs);
+        fabDocs.setVisibility(View.INVISIBLE);
 
         tabViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 fabImages.collapse();
             }
+
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
                     fabImages.setVisibility(View.VISIBLE);
+                    fabDocs.setVisibility(View.INVISIBLE);
                 } else if (position == 1) {
                     fabImages.setVisibility(View.INVISIBLE);
+                    fabDocs.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
                 fabImages.collapse();
@@ -130,12 +141,13 @@ public class subject_media extends AppCompatActivity {
                             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                                 dispatchTakePictureIntent();
                             }
+
                             @Override
                             public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                                if ( permissionDeniedResponse.isPermanentlyDenied()) {
+                                if (permissionDeniedResponse.isPermanentlyDenied()) {
 
 
-                                    Snackbar sb = Snackbar.make(findViewById(R.id.subMediaParentLayout),"Requires Camera Permission to continue.",Snackbar.LENGTH_LONG)
+                                    Snackbar sb = Snackbar.make(findViewById(R.id.subMediaParentLayout), "Requires Camera Permission to continue.", Snackbar.LENGTH_LONG)
                                             .setAction("SETTINGS", new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -149,6 +161,7 @@ public class subject_media extends AppCompatActivity {
                                     sb.show();
                                 }
                             }
+
                             @Override
                             public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
                                 permissionToken.continuePermissionRequest();
@@ -169,6 +182,15 @@ public class subject_media extends AppCompatActivity {
             }
         });
 
+        fabDocs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent docs = new Intent(Intent.ACTION_GET_CONTENT);
+                docs.setType("*/*");
+                startActivityForResult(docs, FILE_PICK_REQUEST_CODE);
+
+            }
+        });
 
 //        fabMedia.setOnClickListener(new View.OnClickListener() {
 //            @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -237,8 +259,6 @@ public class subject_media extends AppCompatActivity {
 //                Intent intent1 = new Intent(Intent.ACTION_VIEW);
 
 
-
-
 //            }
 //        });
 
@@ -265,14 +285,14 @@ public class subject_media extends AppCompatActivity {
     }
 
 
-    public void setupTabViewPager (ViewPager viewPager){
+    public void setupTabViewPager(ViewPager viewPager) {
         tabViewPagerAdapter tabViewPagerAdapter = new tabViewPagerAdapter(getSupportFragmentManager());
         tabViewPagerAdapter.addFragment(new ImageFragment(name), "IMAGES");
         tabViewPagerAdapter.addFragment(new DocFragment(), "DOCUMENTS");
         viewPager.setAdapter(tabViewPagerAdapter);
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    //    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 //    private void showPdfFromUri(Uri uri) {
     private void showPdfFromUri(String uri) {
 
@@ -307,7 +327,6 @@ public class subject_media extends AppCompatActivity {
 
 //        intent.setDataAndType(Uri.fromFile(file), );
 //        startActivity(intent);
-
 
 
 //        intent.setAction(Intent.ACTION_VIEW);
@@ -355,12 +374,13 @@ public class subject_media extends AppCompatActivity {
     }
 
 
-//    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    //    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//
+
+// IMAGE PICK
         if (requestCode == IMAGE_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
 //            if (data != null) {
 //            File file = new File(currentPhotoPath);
@@ -371,7 +391,7 @@ public class subject_media extends AppCompatActivity {
 //            db.addMedia(name, uri.toString());
             ClipData clipData = data.getClipData();
             if (clipData != null) {
-                for (int i=0; i<clipData.getItemCount(); i++) {
+                for (int i = 0; i < clipData.getItemCount(); i++) {
                     Uri uri = clipData.getItemAt(i).getUri();
                     String path = getPath(this, uri);
                     File file = new File(path);
@@ -399,9 +419,6 @@ public class subject_media extends AppCompatActivity {
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
-
-
-
 
 
 //                Bundle bundle = data.getExtras();
@@ -432,7 +449,9 @@ public class subject_media extends AppCompatActivity {
 //                    }
 //            }
         }
-        if (requestCode == IMAGE_CAPTURE_REQUEST_CODE && resultCode == RESULT_OK ) {
+
+// IMAGE CAPTURE
+        else if (requestCode == IMAGE_CAPTURE_REQUEST_CODE && resultCode == RESULT_OK) {
             File file = new File(currentPhotoPath);
             Uri uri = Uri.fromFile(file);
             db.addMedia(name, uri.toString());
@@ -441,21 +460,55 @@ public class subject_media extends AppCompatActivity {
 //                dispatchTakePictureIntent();
 //            }
         }
-        if (requestCode == 101 && resultCode == RESULT_OK ) {
-            Toast.makeText(this, "Woohoo!", Toast.LENGTH_SHORT).show();
+
+// FILE PICK
+        else if (requestCode == FILE_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+            String path = "";
+            String fileName = getFileName(uri);
+            Log.d("attman", "Doc Name: " + fileName);
+
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    path = getExactPath(this, uri, fileName);
+                }
+
+                Log.d("attman", "Doc Path: " + path);
+
+            } catch (Exception e) {
+                Log.d("attman", "Doc Path Error " + e.getMessage());
+            }
+//            String fileName = "";
+//            try {
+////                String path = getPath(this, uri);
+//                path = uri.getPath();
+//                fileName = getFileName(uri);
+//                Log.d("attman", "Doc path: " + path);
+//                Log.d("attman", "Doc name: " + fileName);
+//            } catch (Exception e) {
+//                Log.d("attman", "Doc path error");
+//            }
+//
+//            try {
+//                saveFileInternal(path, fileName);
+//            } catch (Exception e) {
+//                Log.d("attman", "Save File error");
+//            }
         }
+
     }
 
     private void saveFileInternal(String path, String fileName) throws IOException {
-        FileOutputStream fileOutputStream = openFileOutput(name, MODE_APPEND);
+        FileOutputStream fileOutputStream = openFileOutput(fileName, MODE_PRIVATE);
+//        FileOutputStream fileOutputStream1 = o
         File file = new File(path);
         byte[] bytes = getBytesFromFile(file);
 
         fileOutputStream.write(bytes);
         fileOutputStream.close();
 
-        Toast.makeText(this, "SAVED FILE: "+getFilesDir()+"/"+fileName, Toast.LENGTH_SHORT).show();
-        Log.d("attman", "SAVED FILE: "+getFilesDir()+"/"+fileName);
+//        Toast.makeText(this, "SAVED FILE: "+getFilesDir()+"/"+fileName, Toast.LENGTH_SHORT).show();
+        Log.d("attman", "SAVED FILE: " + getFilesDir() + "/" + fileName);
     }
 
     private byte[] getBytesFromFile(File file) throws IOException {
@@ -465,7 +518,7 @@ public class subject_media extends AppCompatActivity {
 
     private String getFileName(Uri uri) {
         String result = null;
-        if (uri.getScheme().equals("content")){
+        if (uri.getScheme().equals("content")) {
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
             try {
                 if (cursor != null && cursor.moveToFirst()) {
@@ -575,8 +628,179 @@ public class subject_media extends AppCompatActivity {
 //
 //        }
 
+
+    public static String getExactPath(final Context context, final Uri uri, final String fileName) {
+
+//        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+
+        // DocumentProvider
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (DocumentsContract.isDocumentUri(context, uri)) {
+                // ExternalStorageProvider
+                if (isExternalStorageDocument(uri)) {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    final String type = split[0];
+
+                    if ("primary".equalsIgnoreCase(type)) {
+                        return Environment.getExternalStorageDirectory() + "/" + split[1];
+                    }
+
+                    // TODO handle non-primary volumes
+                }
+                // DownloadsProvider
+                else if (isDownloadsDocument(uri)) {
+
+//                    String fileName = getFilePath(context, uri);
+                    if (fileName != null) {
+                        return Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName;
+                    }
+
+                    String id = DocumentsContract.getDocumentId(uri);
+
+
+                    if (id.startsWith("raw:")) {
+                        id = id.replaceFirst("raw:", "");
+                        File file = new File(id);
+                        if (file.exists())
+                            return id;
+                    }
+
+
+                    final Uri contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                    return getDataColumn(context, contentUri, null, null);
+                }
+                // MediaProvider
+                else if (isMediaDocument(uri)) {
+                    final String docId = DocumentsContract.getDocumentId(uri);
+                    final String[] split = docId.split(":");
+                    final String type = split[0];
+
+                    Uri contentUri = null;
+                    if ("image".equals(type)) {
+                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("video".equals(type)) {
+                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                    } else if ("audio".equals(type)) {
+                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                    }
+
+                    final String selection = "_id=?";
+                    final String[] selectionArgs = new String[]{
+                            split[1]
+                    };
+
+                    return getDataColumn(context, contentUri, selection, selectionArgs);
+                }
+            }
+
+            // MediaStore (and general)
+            else if ("content".equalsIgnoreCase(uri.getScheme())) {
+                return getDataColumn(context, uri, null, null);
+            }
+            // File
+            else if ("file".equalsIgnoreCase(uri.getScheme())) {
+                return uri.getPath();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the value of the data column for this Uri. This is useful for
+     * MediaStore Uris, and other file-based ContentProviders.
+     *
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
+     * @param selectionArgs (Optional) Selection arguments used in the query.
+     * @return The value of the _data column, which is typically a file path.
+     */
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+//    public String getPDFPath(Context context, Uri uri) {
+//
+//        String id = "";
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+//            id = DocumentsContract.getDocumentId(uri);
+//        }
+//        final Uri contentUri = ContentUris.withAppendedId(
+//                Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+//
+//        String[] projection = {MediaStore.Images.Media.DATA};
+//        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+//        if (cursor != null) {
+//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//            cursor.moveToFirst();
+//            return cursor.getString(column_index);
+//        }
+//        return null;
+//
+////        String id = "";
+////        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+////            id = DocumentsContract.getDocumentId(uri);
+////        }
+////        final Uri contentUri = ContentUris.withAppendedId(
+////                Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+////
+////        String[] projection = {MediaStore.Images.Media.DATA};
+////        Cursor cursor = getContentResolver().query(contentUri, projection, null, null, null);
+////        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+////        cursor.moveToFirst();
+////        return cursor.getString(column_index);
+//    }
+
     public String getPath(Context context, Uri uri) {
-//        System.out.println("IM IN getPath");
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
         if (cursor != null) {
@@ -586,5 +810,4 @@ public class subject_media extends AppCompatActivity {
         }
         return null;
     }
-
 }

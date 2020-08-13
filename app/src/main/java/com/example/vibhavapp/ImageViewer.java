@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,9 +20,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.example.vibhavapp.data.MyDbHandler;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import java.io.File;
 
 public class ImageViewer extends AppCompatActivity {
 
@@ -34,6 +40,7 @@ public class ImageViewer extends AppCompatActivity {
     LinearLayout imageOptions;
     View forClick;
     ImageButton imageOptionsDelete;
+    ImageButton imageOptionsShare;
     MyDbHandler db;
 
 
@@ -60,12 +67,21 @@ public class ImageViewer extends AppCompatActivity {
         imageViewPager.setAdapter(imageAdapter);
         imageViewPager.setCurrentItem(position);
 
-
+// Delete Photo
         imageOptionsDelete = findViewById(R.id.imageOptionsDelete);
         imageOptionsDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteImage(v, position);
+            }
+        });
+
+// Share Photo
+        imageOptionsShare = findViewById(R.id.imageOptionsShare);
+        imageOptionsShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareImage(v, position);
             }
         });
 
@@ -77,12 +93,21 @@ public class ImageViewer extends AppCompatActivity {
             }
             @Override
             public void onPageSelected(final int position) {
-
+// Delete Photo
                 imageOptionsDelete = findViewById(R.id.imageOptionsDelete);
                 imageOptionsDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         deleteImage(v, position);
+                    }
+                });
+
+// Share Photo
+                imageOptionsShare = findViewById(R.id.imageOptionsShare);
+                imageOptionsShare.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        shareImage(v, position);
                     }
                 });
             }
@@ -107,6 +132,27 @@ public class ImageViewer extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void shareImage(final View v, final int position) {
+//        RequestBuilder<File> file = Glide.with(v.getContext()).asFile().load(Uri.parse(images[position]));
+        Uri uri = Uri.parse(images[position]);
+//        Uri uri = Uri.fromFile(new File(images[position]));
+        String path = uri.getPath();
+        File file = new File(path);
+//        Uri urimethod = Uri.fromFile(file);
+        Uri uri1 = FileProvider.getUriForFile(v.getContext(), "com.example.android.fileprovider",
+                file);
+        Log.d("attman", "Share Fp: " +uri1);
+//        Log.d("attman", "Share uri: "+urimethod);
+
+//
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_STREAM, uri1);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType("image/*");
+        startActivity(Intent.createChooser(intent, "Share Image"));
     }
 
     public void deleteImage(final View v, final int position) {

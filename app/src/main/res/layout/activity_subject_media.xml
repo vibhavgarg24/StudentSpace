@@ -27,13 +27,17 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/tabViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#000000"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
+    </androidx.viewpager.widget.ViewPager>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fabImages"
@@ -66,5 +70,20 @@
             app:fab_title="Gallery" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabDocs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/fabImages"
+        app:layout_constraintBottom_toBottomOf="@+id/fabImages"
+        android:background="@android:color/white"
+        app:backgroundTint="#FFFFFF"
+        android:foreground="@drawable/ic_add"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
