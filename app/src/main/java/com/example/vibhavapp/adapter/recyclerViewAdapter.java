@@ -28,13 +28,8 @@ import com.example.vibhavapp.R;
 import com.example.vibhavapp.data.MyDbHandler;
 import com.example.vibhavapp.insideSubject;
 import com.example.vibhavapp.model.subject;
-import com.example.vibhavapp.subjects;
-import com.example.vibhavapp.ui.home.HomeFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-
 import java.util.List;
-
-import static com.example.vibhavapp.ui.home.HomeFragment.subjectArrayList;
 
 public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapter.ViewHolder> {
 
@@ -43,8 +38,6 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
     private MyDbHandler db;
     private recyclerViewAdapter adapter;
     private String newName;
-//    private subject item;
-//    private RecyclerView recyclerView;
 
     public recyclerViewAdapter(Context context, List<subject> subjectList) {
         this.context = context;
@@ -71,7 +64,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
         final subject subject = subjectList.get(position);
         final int attendanceCriteriaInt = subject.getCriteria();
 
-//        read attendance criteria from shared preferences
+        //        read attendance criteria from shared preferences
 //        SharedPreferences shrd = context.getSharedPreferences("newInstall", MODE_PRIVATE);
 //        final int attendanceCriteriaInt = shrd.getInt("attendanceCriteria", -1);
 
@@ -83,13 +76,13 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
             setBottomMargin(holder.itemView, 0);
         }
 
-//        set holder contents
+        //   set holder contents
         holder.subjectName.setText(subject.getName());
         holder.progressBar.setIndeterminate(false);
 
         holder.progressBar.setMax(100);
 
-       /* holder.attendance.setText(subject.getAttendance());
+         /* holder.attendance.setText(subject.getAttendance());
         holder.statusText.setText(subject.getProgress() + "%");
 
 
@@ -129,6 +122,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
 
        //        holder.progressBar.setProgress(subject.getProgress());
 
+// PRESENT CLICK
         holder.presentButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -136,7 +130,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                 int present = db.addPresent(subject.getName());
                 subject.setPresent(present);
 
-/*                holder.attendance.setText(subject.getAttendance());
+            /*                holder.attendance.setText(subject.getAttendance());
                 holder.statusText.setText(subject.getProgress() + "%");
 
                 if (subject.getProgress() >= attendanceCriteriaInt) {
@@ -171,11 +165,12 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
 
                 refresh(holder, position, subjectList);
 
-//                        notifyItemChanged(holder.getAdapterPosition());
+            //      notifyItemChanged(holder.getAdapterPosition());
             }
 
         });
 
+// ABSENT CLICK
         holder.absentButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -218,11 +213,11 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
 
                 refresh(holder, position, subjectList);
 
-//                        notifyItemChanged(holder.getAdapterPosition());
+            //     notifyItemChanged(holder.getAdapterPosition());
             }
         });
 
-//        holder.undoButton.setOnClickListener(new View.OnClickListener() {
+        //        holder.undoButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                char c = db.toUndo(subject.getName());
@@ -274,6 +269,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
 //            }
 //        });
 
+// SUB CLICK
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -290,7 +286,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
             }
         });
 
-
+// SUB LONG CLICK
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View v) {
@@ -304,13 +300,13 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                 TextView subjectName_bottom = bottomSheetView.findViewById(R.id.subjectName_bottom);
                 subjectName_bottom.setText(subject.getName());
 
-//                UNDO CLICK
+// UNDO CLICK
                 bottomSheetView.findViewById(R.id.undo_layout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         bottomSheetDialog.dismiss();
                         boolean change = true;
-//                        Toast.makeText(v.getContext(), "Undo Clicked..", Toast.LENGTH_SHORT).show();
+                    //        Toast.makeText(v.getContext(), "Undo Clicked..", Toast.LENGTH_SHORT).show();
                         char c = db.toUndo(subject.getName());
                         if (c == 'n') {
                             change = false;
@@ -322,7 +318,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                             int absent = db.subtractAbsent(subject.getName());
                             subject.setAbsent(absent);
                         }
-/*
+            /*
                         holder.attendance.setText(subject.getAttendance());
                         holder.statusText.setText(subject.getProgress() + "%");
 
@@ -365,13 +361,13 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                     }
                 });
 
-//                RESET CLICK
+// RESET CLICK
                 bottomSheetView.findViewById(R.id.reset_layout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         bottomSheetDialog.dismiss();
                         final boolean change = (subject.getPresent() + subject.getAbsent() == 0) ? false : true;
-//                        Toast.makeText(v.getContext(), "Reset Clicked..", Toast.LENGTH_SHORT).show();
+                    //      Toast.makeText(v.getContext(), "Reset Clicked..", Toast.LENGTH_SHORT).show();
                         if (change) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                             builder.setTitle("Reset Attendance");
@@ -405,7 +401,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                     }
                 });
 
-//                RENAME CLICK
+//   RENAME CLICK
                 bottomSheetDialog.findViewById(R.id.rename_layout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
@@ -413,19 +409,19 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                         editText_rename.setInputType(InputType.TYPE_CLASS_TEXT);
                         editText_rename.setMaxLines(1);
                         editText_rename.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
-//                        final String newName = "";
+                //    final String newName = "";
 
                         editText_rename.setText(subject.getName());
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                         builder.setTitle("Rename Subject");
                         builder.setMessage("Confirm to Rename Subject");
                         builder.setView(editText_rename);
-//                        builder.setCancelable(false);
+            //           builder.setCancelable(false);
 
                         builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                newName = editText_rename.getText().toString().trim().toUpperCase();
+                //                                newName = editText_rename.getText().toString().trim().toUpperCase();
 ////                                Toast.makeText(v.getContext(), ""+newName, Toast.LENGTH_SHORT).show();
 //
 //                                List<String> subjectsName = db.getSubjectsName();
@@ -463,7 +459,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                             @Override
                             public void onClick(View v) {
                                 newName = editText_rename.getText().toString().trim().toUpperCase();
-//                                Toast.makeText(v.getContext(), ""+newName, Toast.LENGTH_SHORT).show();
+                //       Toast.makeText(v.getContext(), ""+newName, Toast.LENGTH_SHORT).show();
 
                                 List<String> subjectsName = db.getSubjectsName();
                                 subjectsName.remove(subject.getName());
@@ -489,12 +485,12 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                     }
                 });
 
-//                DELETE CLICK
+//    DELETE CLICK
                 bottomSheetView.findViewById(R.id.delete_layout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         bottomSheetDialog.dismiss();
-//                        Toast.makeText(v.getContext(), "Delete Clicked..", Toast.LENGTH_SHORT).show();
+                //             Toast.makeText(v.getContext(), "Delete Clicked..", Toast.LENGTH_SHORT).show();
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                         builder.setTitle("Delete Subject");
@@ -521,7 +517,6 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                         builder.show();
                     }
                 });
-
 
                 return true;
             }
@@ -621,5 +616,6 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                 holder.toAttendText.setText("");
         }
     }
+
 }
 

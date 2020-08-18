@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/drawerMenuDelete"
+        android:title="DELETE"
+        android:icon="@drawable/ic_delete_big"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/drawerMenuShare"
+        android:title="SHARE"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="ifRoom" />
+</menu>

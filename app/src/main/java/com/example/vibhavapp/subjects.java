@@ -3,48 +3,22 @@ package com.example.vibhavapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
-
-import com.example.vibhavapp.adapter.recyclerViewAdapter;
-import com.example.vibhavapp.data.MyDbHandler;
-import com.example.vibhavapp.model.subject;
-import com.example.vibhavapp.ui.home.HomeFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
-
-import static com.example.vibhavapp.ui.home.HomeFragment.subjectArrayList;
-
 
 public class subjects extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
-
-    private RecyclerView recyclerView;
-    private recyclerViewAdapter recyclerViewAdapter;
-    public static ArrayList<subject> subjectArrayList;
-    public static ArrayList<String> subjectNameList;
 
     DrawerLayout drawer;
     Toolbar toolbar = null;
@@ -55,7 +29,7 @@ public class subjects extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
 
-////        recyclerView Initialization
+    ////        recyclerView Initialization
 //        recyclerView = findViewById(R.id.recyclerView);
 ////        recyclerView.addItemDecoration(new DividerItemDecoration(subjects.this,LinearLayoutManager.VERTICAL));
 //        recyclerView.setHasFixedSize(true);
@@ -64,7 +38,7 @@ public class subjects extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        FloatingActionButton fab = findViewById(R.id.fab);
+    //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -74,7 +48,7 @@ public class subjects extends AppCompatActivity {
 //        });
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
+    //        navigationView.setNavigationItemSelectedListener(this);
 //        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 //            @Override
 //            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -107,7 +81,7 @@ public class subjects extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-//        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+    //        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
 //            @Override
 //            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
 //
@@ -150,7 +124,7 @@ public class subjects extends AppCompatActivity {
 //        recyclerView.setAdapter(recyclerViewAdapter);
     }
 
-//    @Override
+    //    @Override
 //    public void onResume() {
 //
 //        super.onResume();
@@ -221,7 +195,7 @@ public class subjects extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    @Override
+    //    @Override
 //    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 //        int id = item.getItemId();
 //        Log.d("attman", "Edit_act");

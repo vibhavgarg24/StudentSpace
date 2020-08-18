@@ -1,31 +1,19 @@
 package com.example.vibhavapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
-
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.example.vibhavapp.data.MyDbHandler;
-import com.github.chrisbanes.photoview.PhotoView;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-
 import java.io.File;
 
 public class ImageViewer extends AppCompatActivity {
@@ -38,13 +26,10 @@ public class ImageViewer extends AppCompatActivity {
     private Boolean optionsVisible;
 
     LinearLayout imageOptions;
-    View forClick;
     ImageButton imageOptionsDelete;
     ImageButton imageOptionsShare;
     MyDbHandler db;
 
-
-//    private GridViewAdapter gridViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +41,6 @@ public class ImageViewer extends AppCompatActivity {
         Intent intent = getIntent();
         position = intent.getExtras().getInt("position");
         name = intent.getExtras().getString("subjectName");
-//        gridViewAdapter = new GridViewAdapter(this);
-//        imageIds = gridViewAdapter.images;
 
         db = new MyDbHandler(this);
         images = db.getMedia(name);
@@ -141,9 +124,8 @@ public class ImageViewer extends AppCompatActivity {
         String path = uri.getPath();
         File file = new File(path);
 //        Uri urimethod = Uri.fromFile(file);
-        Uri uri1 = FileProvider.getUriForFile(v.getContext(), "com.example.android.fileprovider",
-                file);
-        Log.d("attman", "Share Fp: " +uri1);
+        Uri uri1 = FileProvider.getUriForFile(v.getContext(), "com.example.android.fileprovider", file);
+        Log.d("attman", "Share Fp: " + uri1);
 //        Log.d("attman", "Share uri: "+urimethod);
 
 //

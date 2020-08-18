@@ -14,6 +14,9 @@ public class Params {
     public static final String KEY_NOTES = "notes";
     public static final String KEY_CRITERIA = "criteria";
     public static final String KEY_SCRITERIA = "scriteria";
-    public static final String KEY_DRAWER = "drawer";
+    public static final String KEY_IMGPATHS = "imgPaths";
+    public static final String KEY_IMGNAMES = "imgNames";
+    public static final String KEY_DOCPATHS = "docPaths";
+    public static final String KEY_DOCNAMES = "docNames";
 
 }

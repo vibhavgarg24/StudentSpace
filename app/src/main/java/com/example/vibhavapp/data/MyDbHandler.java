@@ -30,8 +30,9 @@ public class MyDbHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String create = "CREATE TABLE " + Params.TABLE_NAME + "(" + Params.KEY_ID + " INTEGER PRIMARY KEY, "
                         + Params.KEY_SUBJECTNAME + " TEXT, " + Params.KEY_PRESENT + " INTEGER, "
-                        + Params.KEY_ABSENT + " INTEGER, " + Params.KEY_STACK + " TEXT, " + Params.KEY_NOTES + " TEXT, " +
-                        Params.KEY_CRITERIA + " INTEGER, " + Params.KEY_SCRITERIA + " INTEGER, " + Params.KEY_DRAWER + " TEXT" + ")";
+                        + Params.KEY_ABSENT + " INTEGER, " + Params.KEY_STACK + " TEXT, " + Params.KEY_NOTES + " TEXT, "
+                        + Params.KEY_CRITERIA + " INTEGER, " + Params.KEY_SCRITERIA + " INTEGER, " + Params.KEY_IMGNAMES + " TEXT,"
+                        + Params.KEY_IMGPATHS + " TEXT," + Params.KEY_DOCNAMES + " TEXT," + Params.KEY_DOCPATHS + " TEXT" + ")";
         Log.d("attman", create);
         db.execSQL(create);
     }
@@ -56,7 +57,10 @@ public class MyDbHandler extends SQLiteOpenHelper {
         values.put(Params.KEY_NOTES, "");
         values.put(Params.KEY_CRITERIA, attendanceCriteriaInt);
         values.put(Params.KEY_SCRITERIA, 0);
-        values.put(Params.KEY_DRAWER, "");
+        values.put(Params.KEY_IMGNAMES, "");
+        values.put(Params.KEY_IMGPATHS, "");
+        values.put(Params.KEY_DOCNAMES, "");
+        values.put(Params.KEY_DOCPATHS, "");
 
         db.insert(Params.TABLE_NAME, null, values);
         Log.d("attman","Subject_added_To_DB");
@@ -336,7 +340,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
         String search = "SELECT * FROM " + Params.TABLE_NAME + " WHERE " + Params.KEY_SUBJECTNAME + " = \""  + subjectName + "\"";
         @SuppressLint("Recycle") Cursor cursor = dbr.rawQuery(search,null);
         if (cursor.moveToFirst()) {
-            media = cursor.getString(8);
+            media = cursor.getString(9);
         }
         dbr.close();
 
@@ -358,7 +362,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
         result = result + list.get(list.size()-1);
 
         SQLiteDatabase dbw = this.getWritableDatabase();
-        String update = "UPDATE " + Params.TABLE_NAME + " SET " + Params.KEY_DRAWER + " = \"" + result + "\"" +
+        String update = "UPDATE " + Params.TABLE_NAME + " SET " + Params.KEY_IMGPATHS + " = \"" + result + "\"" +
                 " WHERE " + Params.KEY_SUBJECTNAME + " = \"" + subjectName + "\"";
         dbw.execSQL(update);
         dbw.close();
@@ -373,7 +377,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
         String search = "SELECT * FROM " + Params.TABLE_NAME + " WHERE " + Params.KEY_SUBJECTNAME + " = \""  + subjectName + "\"";
         @SuppressLint("Recycle") Cursor cursor = dbr.rawQuery(search,null);
         if (cursor.moveToFirst()) {
-            stringUris = cursor.getString(8);
+            stringUris = cursor.getString(9);
         }
         dbr.close();
 
@@ -395,7 +399,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
         String search = "SELECT * FROM " + Params.TABLE_NAME + " WHERE " + Params.KEY_SUBJECTNAME + " = \""  + subjectName + "\"";
         @SuppressLint("Recycle") Cursor cursor = dbr.rawQuery(search,null);
         if (cursor.moveToFirst()) {
-            media = cursor.getString(8);
+            media = cursor.getString(9);
         }
         dbr.close();
 
@@ -417,9 +421,128 @@ public class MyDbHandler extends SQLiteOpenHelper {
         }
 
         SQLiteDatabase dbw = this.getWritableDatabase();
-        String update = "UPDATE " + Params.TABLE_NAME + " SET " + Params.KEY_DRAWER + " = \"" + result + "\"" +
+        String update = "UPDATE " + Params.TABLE_NAME + " SET " + Params.KEY_IMGPATHS + " = \"" + result + "\"" +
                 " WHERE " + Params.KEY_SUBJECTNAME + " = \"" + subjectName + "\"";
         dbw.execSQL(update);
         dbw.close();
     }
-}
+
+    public void addDocPath (String subjectName, String uri) {
+        SQLiteDatabase dbr = this.getReadableDatabase();
+        String media = "";
+
+        String search = "SELECT * FROM " + Params.TABLE_NAME + " WHERE " + Params.KEY_SUBJECTNAME + " = \""  + subjectName + "\"";
+        @SuppressLint("Recycle") Cursor cursor = dbr.rawQuery(search,null);
+        if (cursor.moveToFirst()) {
+            media = cursor.getString(11);
+        }
+        dbr.close();
+
+        if (media.equals(""))
+            media = ",";
+
+        String[] array = media.split(",");
+
+        ArrayList<String> list = new ArrayList<>();
+        for (int i=0; i<array.length; i++) {
+            list.add(array[i]);
+        }
+        list.add(uri);
+
+        String result = "";
+        for (int i=0; i<list.size()-1; i++) {
+            result = result + list.get(i) + ",";
+        }
+        result = result + list.get(list.size()-1);
+
+        SQLiteDatabase dbw = this.getWritableDatabase();
+        String update = "UPDATE " + Params.TABLE_NAME + " SET " + Params.KEY_DOCPATHS + " = \"" + result + "\"" +
+                " WHERE " + Params.KEY_SUBJECTNAME + " = \"" + subjectName + "\"";
+        dbw.execSQL(update);
+        dbw.close();
+
+    }
+
+    public String[] getDocPaths (String subjectName) {
+        SQLiteDatabase dbr = this.getReadableDatabase();
+        String[] array = {""};
+        String stringUris = "";
+
+        String search = "SELECT * FROM " + Params.TABLE_NAME + " WHERE " + Params.KEY_SUBJECTNAME + " = \""  + subjectName + "\"";
+        @SuppressLint("Recycle") Cursor cursor = dbr.rawQuery(search,null);
+        if (cursor.moveToFirst()) {
+            stringUris = cursor.getString(11);
+        }
+        dbr.close();
+
+        if (stringUris.equals(""))
+            return array;
+
+//        ArrayList<String> list = new ArrayList<>();
+        array = stringUris.split(",");
+
+//        list.addAll(Arrays.asList(array));
+
+        return array;
+    }
+
+    public void addDocName (String subjectName, String uri) {
+        SQLiteDatabase dbr = this.getReadableDatabase();
+        String media = "";
+
+        String search = "SELECT * FROM " + Params.TABLE_NAME + " WHERE " + Params.KEY_SUBJECTNAME + " = \""  + subjectName + "\"";
+        @SuppressLint("Recycle") Cursor cursor = dbr.rawQuery(search,null);
+        if (cursor.moveToFirst()) {
+            media = cursor.getString(10);
+        }
+        dbr.close();
+
+        if (media.equals(""))
+            media = ",";
+
+        String[] array = media.split(",");
+
+        ArrayList<String> list = new ArrayList<>();
+        for (int i=0; i<array.length; i++) {
+            list.add(array[i]);
+        }
+        list.add(uri);
+
+        String result = "";
+        for (int i=0; i<list.size()-1; i++) {
+            result = result + list.get(i) + ",";
+        }
+        result = result + list.get(list.size()-1);
+
+        SQLiteDatabase dbw = this.getWritableDatabase();
+        String update = "UPDATE " + Params.TABLE_NAME + " SET " + Params.KEY_DOCNAMES + " = \"" + result + "\"" +
+                " WHERE " + Params.KEY_SUBJECTNAME + " = \"" + subjectName + "\"";
+        dbw.execSQL(update);
+        dbw.close();
+
+    }
+
+    public String[] getDocNames (String subjectName) {
+        SQLiteDatabase dbr = this.getReadableDatabase();
+        String[] array = {""};
+        String stringUris = "";
+
+        String search = "SELECT * FROM " + Params.TABLE_NAME + " WHERE " + Params.KEY_SUBJECTNAME + " = \"" + subjectName + "\"";
+        @SuppressLint("Recycle") Cursor cursor = dbr.rawQuery(search, null);
+        if (cursor.moveToFirst()) {
+            stringUris = cursor.getString(10);
+        }
+        dbr.close();
+
+        if (stringUris.equals(""))
+            return array;
+
+//        ArrayList<String> list = new ArrayList<>();
+        array = stringUris.split(",");
+
+//        list.addAll(Arrays.asList(array));
+
+        return array;
+    }
+
+    }

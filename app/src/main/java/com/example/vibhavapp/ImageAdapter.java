@@ -5,11 +5,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
@@ -22,10 +17,6 @@ public class ImageAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     public String[] images;
 
-    LinearLayout imageOptions;
-    ImageButton imageOptionsDelete;
-
-//            = new int[] {R.drawable.cross, R.drawable.plus, R.drawable.tick};
 
     public ImageAdapter(Context context, String[] images) {
         this.context = context;
