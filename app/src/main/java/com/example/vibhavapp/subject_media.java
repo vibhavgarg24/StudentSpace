@@ -171,7 +171,6 @@ public class subject_media extends AppCompatActivity {
                 Intent docs = new Intent(Intent.ACTION_GET_CONTENT);
                 docs.setType("*/*");
                 startActivityForResult(docs, FILE_PICK_REQUEST_CODE);
-
             }
         });
 
@@ -364,19 +363,6 @@ public class subject_media extends AppCompatActivity {
 //            }
             }
 
-// IMAGE CAPTURE
-            else if (requestCode == IMAGE_CAPTURE_REQUEST_CODE && resultCode == RESULT_OK) {
-                File file = new File(currentPhotoPath);
-                Uri uri = Uri.fromFile(file);
-                db.addMedia(name, uri.toString());
-
-                Log.d("attman", "Captured: " + uri.toString());
-
-                //            while (true) {
-                //                dispatchTakePictureIntent();
-                //            }
-            }
-
 // FILE PICK
             else if (requestCode == FILE_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
                 Uri srcUri = data.getData();
@@ -425,7 +411,22 @@ public class subject_media extends AppCompatActivity {
                     Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
                 }
             }
-        } else {
+        }
+
+// IMAGE CAPTURE
+        else if (requestCode == IMAGE_CAPTURE_REQUEST_CODE && resultCode == RESULT_OK) {
+            File file = new File(currentPhotoPath);
+            Uri uri = Uri.fromFile(file);
+            db.addMedia(name, uri.toString());
+
+            Log.d("attman", "Captured: " + uri.toString());
+
+            //            while (true) {
+            //                dispatchTakePictureIntent();
+            //            }
+        }
+
+        else {
             Toast.makeText(this, "No File Selected", Toast.LENGTH_SHORT).show();
         }
     }
@@ -629,7 +630,7 @@ public class subject_media extends AppCompatActivity {
                         return Environment.getExternalStorageDirectory() + "/" + split[1];
                     }
 
-                    // TODO handle non-primary volumes
+
                 }
 
                 // DownloadsProvider

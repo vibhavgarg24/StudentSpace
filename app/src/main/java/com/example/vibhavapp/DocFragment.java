@@ -1,28 +1,19 @@
 package com.example.vibhavapp;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-
 import com.example.vibhavapp.data.MyDbHandler;
 
-import java.util.ArrayList;
-
-public class DocFragment extends Fragment {
+//public class DocFragment extends Fragment implements View.OnLongClickListener {
+public class DocFragment extends Fragment  {
 
     static String name;
     private RecyclerView docRecyclerView;
@@ -30,9 +21,7 @@ public class DocFragment extends Fragment {
     private String[] docPathList;
     private String[] docNameList;
 
-//    boolean isContextualModeEnabled = false;
-//    private ArrayList<Integer> selectedList;
-//    private Toolbar toolbar;
+//    private ActionMode actionMode;
 
     public DocFragment(String name) {
         this.name = name;
@@ -58,7 +47,7 @@ public class DocFragment extends Fragment {
         docRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
 // Using RecyclerView
-        docAdapter = new DocAdapter(root.getContext(), docPathList, docNameList);
+        docAdapter = new DocAdapter(root.getContext(), name,  docPathList, docNameList, DocFragment.this);
         docRecyclerView.setAdapter(docAdapter);
 
         return root;
@@ -72,9 +61,16 @@ public class DocFragment extends Fragment {
         docPathList = db.getDocPaths(name);
         docNameList = db.getDocNames(name);
 
-        docAdapter = new DocAdapter(getContext(), docPathList, docNameList);
+        docAdapter = new DocAdapter(getContext(), name, docPathList, docNameList, this);
         docRecyclerView.setAdapter(docAdapter);
     }
+
+//    @Override
+//    public boolean onLongClick(View v) {
+//
+//    }
+
+
 
     //    @Override
 //    public boolean onLongClick(View v) {

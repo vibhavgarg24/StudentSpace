@@ -14,7 +14,6 @@
 
     <string name="home_second">Home Second</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="set_subject_specific_criterion"> <u>Set Subject-specific Criterion</u> :  </string>
 </resources>

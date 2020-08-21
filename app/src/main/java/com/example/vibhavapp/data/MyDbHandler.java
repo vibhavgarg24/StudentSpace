@@ -545,4 +545,74 @@ public class MyDbHandler extends SQLiteOpenHelper {
         return array;
     }
 
+    public void deleteDocPath (String subjectName, int position) {
+        SQLiteDatabase dbr = this.getReadableDatabase();
+        String media = "";
+
+        String search = "SELECT * FROM " + Params.TABLE_NAME + " WHERE " + Params.KEY_SUBJECTNAME + " = \""  + subjectName + "\"";
+        @SuppressLint("Recycle") Cursor cursor = dbr.rawQuery(search,null);
+        if (cursor.moveToFirst()) {
+            media = cursor.getString(11);
+        }
+        dbr.close();
+
+        String result = "";
+        String[] array = media.split(",");
+        if (array.length == 1)
+            result = "";
+        else {
+            ArrayList<String> list = new ArrayList<>();
+            for (String element : array) {
+                list.add(element);
+            }
+            if (position < list.size())
+                list.remove(position);
+            for (int i = 0; i < list.size() - 1; i++) {
+                result = result + list.get(i) + ",";
+            }
+            result = result + list.get(list.size() - 1);
+        }
+
+        SQLiteDatabase dbw = this.getWritableDatabase();
+        String update = "UPDATE " + Params.TABLE_NAME + " SET " + Params.KEY_DOCPATHS + " = \"" + result + "\"" +
+                " WHERE " + Params.KEY_SUBJECTNAME + " = \"" + subjectName + "\"";
+        dbw.execSQL(update);
+        dbw.close();
     }
+
+    public void deleteDocName (String subjectName, int position) {
+        SQLiteDatabase dbr = this.getReadableDatabase();
+        String media = "";
+
+        String search = "SELECT * FROM " + Params.TABLE_NAME + " WHERE " + Params.KEY_SUBJECTNAME + " = \""  + subjectName + "\"";
+        @SuppressLint("Recycle") Cursor cursor = dbr.rawQuery(search,null);
+        if (cursor.moveToFirst()) {
+            media = cursor.getString(10);
+        }
+        dbr.close();
+
+        String result = "";
+        String[] array = media.split(",");
+        if (array.length == 1)
+            result = "";
+        else {
+            ArrayList<String> list = new ArrayList<>();
+            for (String element : array) {
+                list.add(element);
+            }
+            if (position < list.size())
+                list.remove(position);
+            for (int i = 0; i < list.size() - 1; i++) {
+                result = result + list.get(i) + ",";
+            }
+            result = result + list.get(list.size() - 1);
+        }
+
+        SQLiteDatabase dbw = this.getWritableDatabase();
+        String update = "UPDATE " + Params.TABLE_NAME + " SET " + Params.KEY_DOCNAMES + " = \"" + result + "\"" +
+                " WHERE " + Params.KEY_SUBJECTNAME + " = \"" + subjectName + "\"";
+        dbw.execSQL(update);
+        dbw.close();
+    }
+
+}
