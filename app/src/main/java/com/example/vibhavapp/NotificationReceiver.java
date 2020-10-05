@@ -7,8 +7,6 @@ import androidx.core.app.NotificationCompat;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
-//    public static final int NOTIFICATION_ID = 11;
-
     @Override
     public void onReceive(Context context, Intent intent) {
 

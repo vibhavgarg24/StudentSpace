@@ -17,7 +17,6 @@ public class ImageAdapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     public String[] images;
 
-
     public ImageAdapter(Context context, String[] images) {
         this.context = context;
         this.images = images;
@@ -41,28 +40,6 @@ public class ImageAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.photoview, container, false);
         PhotoView photoView = view.findViewById(R.id.photoView);
         Glide.with(context).load(Uri.parse(images[position])).into(photoView);
-//        Glide.with(context).load(imageIds[position]).into(photoView);
-
-//        imageOptionsDelete = view.findViewById(R.id.imageOptionsDelete);
-//        imageOptionsDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(v.getContext(), "Delete position: "+position, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        imageOptions = view.findViewById(R.id.imageOptions);
-//        photoView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Toast.makeText(v.getContext(), "why", Toast.LENGTH_SHORT).show();
-//                if (imageOptions.getVisibility() == View.VISIBLE) {
-//                    imageOptions.setVisibility(View.GONE);
-//                } else if (imageOptions.getVisibility() == View.GONE)
-//                    imageOptions.setVisibility(View.VISIBLE);
-//            }
-//        });
-
         container.addView(view);
         return view;
     }
@@ -71,12 +48,6 @@ public class ImageAdapter extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((ConstraintLayout) object);
     }
-
-
-//    public void hideOptions (View v) {
-//        Toast.makeText(v.getContext(), "haha", Toast.LENGTH_SHORT).show();
-//    }
-
 
 }
 

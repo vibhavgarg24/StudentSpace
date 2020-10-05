@@ -20,9 +20,7 @@ import java.util.Calendar;
 
 public class DailyReminder extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
-//    int PENDING_INTENT_REQUEST_CODE = 11;
     int hour, min;
-//    int notificationID = 23;
     Boolean calendarSetOnce = false, reminderSwitchState = false;
     Boolean monState, tueState, wedState, thuState, friState, satState, sunState;
     String timeInDb;
@@ -30,9 +28,6 @@ public class DailyReminder extends AppCompatActivity implements TimePickerDialog
     CheckBox mon, tue, wed, thu, fri, sat, sun;
     TextView monTv, tueTv, wedTv, thuTv, friTv, satTv, sunTv, time, timeTv;
     TimePickerDialog timePicker;
-//    Calendar initCalendar = Calendar.getInstance();
-//    Calendar calendar = Calendar.getInstance();
-//    AlarmManager alarmManager;
     SharedPreferences shrd;
 
     @Override
@@ -54,22 +49,12 @@ public class DailyReminder extends AppCompatActivity implements TimePickerDialog
         sunState = shrd.getBoolean("sunState", false);
         timeInDb = shrd.getString("timeInDb", "08:00PM");
 
-//        initCalendar();
-//        calendar = Calendar.getInstance();
-
-//        initCalendar.set(Calendar.HOUR_OF_DAY, 20);
-//        initCalendar.set(Calendar.MINUTE, 0);
-//        initCalendar.set(Calendar.SECOND, 0);
-
         timePicker = TimePickerDialog.newInstance(DailyReminder.this, 20, 0, 0, false);
         timePicker.setThemeDark(true);
 
         initCbandTv();
         initHrMin();
 
-//        if (reminderSwitch.isChecked()) {
-//            checkDays();
-//        }
         reminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -121,15 +106,6 @@ public class DailyReminder extends AppCompatActivity implements TimePickerDialog
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-//        Calendar calendar = Calendar.getInstance();
-
-
-
-//        calendar.set(Calendar.);
-//        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-//        calendar.set(Calendar.MINUTE, minute);
-//        calendar.set(Calendar.SECOND, 0);
-
         hour = hourOfDay;
         min = minute;
 
@@ -150,22 +126,11 @@ public class DailyReminder extends AppCompatActivity implements TimePickerDialog
 
     private void startNotification(int weekDay) {
         Calendar calendar = Calendar.getInstance();
-//        Calendar calendar = Calendar.getInstance();
-//        if (!calendarSetOnce) {
-//            calendar = initCalendar;
-//        }
-
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(DailyReminder.this, NotificationReceiver.class);
         intent.putExtra("NOTIFICATION_ID", weekDay);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(DailyReminder.this, weekDay, intent, 0);
 
-//        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
-//            calendar.add(Calendar.DATE, 7);
-//        }
-//        if (create) {
-
-//        calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.DAY_OF_WEEK, weekDay);
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, min);
@@ -176,16 +141,9 @@ public class DailyReminder extends AppCompatActivity implements TimePickerDialog
         }
 
         Log.d("attman", "Day: " + weekDay + " " +calendar.getTime());
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-//        }
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 7 * (AlarmManager.INTERVAL_DAY), pendingIntent);
-//        calendar.clear();
 
-//        } else {
-//            alarmManager.cancel(pendingIntent);
-//        }
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 7*(AlarmManager.INTERVAL_DAY), pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 7 * (AlarmManager.INTERVAL_DAY), pendingIntent);
+
     }
 
     private void cancelNotification(int notificationID) {
@@ -204,7 +162,6 @@ public class DailyReminder extends AppCompatActivity implements TimePickerDialog
 
         if (mon.isChecked())
             startNotification(2);
-//            startNotification(2, true);
         mon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

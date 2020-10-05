@@ -86,7 +86,6 @@ public class CriteriaEdit extends AppCompatActivity {
                             dialog.cancel();
 
                             Toast.makeText(CriteriaEdit.this, "Changes Saved Successfully", Toast.LENGTH_SHORT).show();
-//                            getSupportFragmentManager().popBackStack();
 
                             finish();
 
@@ -98,10 +97,8 @@ public class CriteriaEdit extends AppCompatActivity {
                             db.editCriteria(attendanceCriteriaInt3);
                             dialog.cancel();
 
-
                             if (attendanceCriteriaInt3 != attendanceCriteriaInt2)
                                 Toast.makeText(CriteriaEdit.this, "Changes Saved Successfully", Toast.LENGTH_SHORT).show();
-//                            getSupportFragmentManager().popBackStack();
                             finish();
 
                         }
@@ -113,32 +110,8 @@ public class CriteriaEdit extends AppCompatActivity {
                     if (attendanceCriteriaInt3 != attendanceCriteriaInt2)
                         Toast.makeText(CriteriaEdit.this, "Changes Saved Successfully", Toast.LENGTH_SHORT).show();
                         db.editCriteria(attendanceCriteriaInt3);
-//                    requireActivity().getSupportFragmentManager().popBackStack();
-//                    Context con = getActivity().getSupportFragmentManager().findFragmentById(R.id.editcriteria).getContext();
-//                    getActivity().getSupportFragmentManager().beginTransaction().remove().commit();
-
-//                    getChildFragmentManager().beginTransaction().remove(fragment).commit();
-//                    Fragment fr = getParentFragmentManager().findFragmentById(R.id.nav_editCriteria);
-//                    if (fr.isInLayout()) {
-//                        getChildFragmentManager().beginTransaction().remove(fr).commit();
-//                    }
-
-//                    getActivity().getSupportFragmentManager().popBackStack();
-//                    getChildFragmentManager().popBackStack();
-//                    getParentFragmentManager().beginTransaction().remove();
-
-//                    getSupportFragmentManager().popBackStack();
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        finishAndRemoveTask();
-//                    }
                     finish();
-//                    return;
                 }
-
-
-//              Finish Fragment
-//                getActivity().getSupportFragmentManager().popBackStack();
-
             }
         });
 

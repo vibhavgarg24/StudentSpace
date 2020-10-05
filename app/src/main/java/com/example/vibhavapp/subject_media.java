@@ -3,7 +3,6 @@ package com.example.vibhavapp;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ActionMode;
 import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
@@ -59,17 +58,10 @@ public class subject_media extends AppCompatActivity {
     FloatingActionButton fabDocs;
     String currentPhotoPath;
 
-
-//    PdfViewActivity pdfViewActivity;
-//    Uri selectedFileUri;
-//    private Intent intent1;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_media);
-        //        getSupportActionBar().hide();
 
         db = new MyDbHandler(subject_media.this);
         tabLayout = findViewById(R.id.tabLayout);
@@ -79,9 +71,6 @@ public class subject_media extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         name = bundle.getString("subjectName");
         setTitle(name + "  -  Drawer");
-
-        //        images = db.getMedia(name);
-        //        Toast.makeText(this, "uri: "+images[0], Toast.LENGTH_LONG).show();
 
         setupTabViewPager(tabViewPager);
         tabLayout.setupWithViewPager(tabViewPager);
@@ -157,7 +146,6 @@ public class subject_media extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
             @Override
             public void onClick(View v) {
-                // dispatchChoosePictureIntent();
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 startActivityForResult(gallery, IMAGE_PICK_REQUEST_CODE);
@@ -169,6 +157,7 @@ public class subject_media extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent docs = new Intent(Intent.ACTION_GET_CONTENT);
+                docs.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 docs.setType("*/*");
                 startActivityForResult(docs, FILE_PICK_REQUEST_CODE);
             }
@@ -290,13 +279,6 @@ public class subject_media extends AppCompatActivity {
         if (data != null) {
 // IMAGE PICK
             if (requestCode == IMAGE_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
-                //            if (data != null) {
-                //            File file = new File(currentPhotoPath);
-                //            Uri uri = Uri.fromFile(file);
-                //            db.addMedia(name, uri.toString());
-
-                //            Uri uri = data.getData();
-                //            db.addMedia(name, uri.toString());
 
                 ClipData clipData = data.getClipData();
                 if (clipData != null) {
@@ -311,8 +293,6 @@ public class subject_media extends AppCompatActivity {
                 } else {
                     Uri uri = data.getData();
                     if (uri != null) {
-                        //            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                        //            String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(uri);
                         String path = getPath(this, uri);
                         String fileName = getFileName(uri);
                         File file = new File(path);
@@ -325,90 +305,25 @@ public class subject_media extends AppCompatActivity {
                         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 }
-                //            try {
-//                saveFileInternal(path, fileName);
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-
-//                Bundle bundle = data.getExtras();
-//                Uri uri = (Uri) bundle.get("data");
-//                db.addMedia(name, uri.toString());
-
-//                ClipData clipData = data.getClipData();
-//                if (clipData != null) {
-//                    for (int i = 0; i < clipData.getItemCount(); i++) {
-//                        Uri uri = clipData.getItemAt(i).getUri();
-//                        db.addMedia(name, uri.toString());
-//                    }
-//                    if (Intent.ACTION_SEND_MULTIPLE.equals(data.getAction()) && intent1.hasExtra(Intent.EXTRA_STREAM)) {
-//                        // retrieve a collection of selected images
-//                        ArrayList<Parcelable> list = intent1.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-//                        // iterate over these images
-//                        if (list != null) {
-//                            for (Parcelable parcel : list) {
-//                                Uri uri = (Uri) parcel;
-//                                db.addMedia(name, uri.toString());
-//                            }
-//                            Toast.makeText(this, "Files Added Successfully.", Toast.LENGTH_SHORT).show();
-//                        }
-//                    } else {
-//                        Uri selectedFileUri = data.getData();
-//                        db.addMedia(name, selectedFileUri.toString());
-//                        Toast.makeText(this, "File Added Successfully.", Toast.LENGTH_SHORT).show();
-//                    }
-//            }
             }
 
 // FILE PICK
             else if (requestCode == FILE_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
-                Uri srcUri = data.getData();
-                if (srcUri != null) {
-                    boolean srcFilePathFlag = false;
-                    String srcFilepath = "";
-                    String srcFileName = getFileName(srcUri);
-                    String srcFileExt = getFileExt(srcUri);
-                    Log.d("attman", "srcFileName: " + srcFileName);
-
-                    try {
-                        srcFilepath = getExactPath(this, srcUri, srcFileName);
-                        Log.d("attman", "srcFilePath: " + srcFilepath);
-                        srcFilePathFlag = true;
-                    } catch (Exception e) {
-                        Log.d("attman", "srcFilePath Error " + e.getMessage());
-                        Toast.makeText(this, "File Path Error", Toast.LENGTH_SHORT).show();
+                ClipData clipData = data.getClipData();
+                if (clipData != null) {
+                    int count = clipData.getItemCount();
+                    for (int i=0; i<count; i++) {
+                        Uri srcUri = clipData.getItemAt(i).getUri();
+                        addDocToDrawer(srcUri);
                     }
-
-            //            String fileName = "";
-//            try {
-////                String path = getPath(this, uri);
-//                path = uri.getPath();
-//                fileName = getFileName(uri);
-//                Log.d("attman", "Doc path: " + path);
-//                Log.d("attman", "Doc name: " + fileName);
-//            } catch (Exception e) {
-//                Log.d("attman", "Doc path error");
-//            }
-//
-                    if (srcFilePathFlag) {
-                        try {
-                            String desFilePath = saveFileInternal(srcFilepath, srcFileName, srcFileExt);
-                            File file = new File(desFilePath);
-                            Uri toSave = Uri.fromFile(file);
-                            db.addDocPath(name, toSave.toString());
-                            db.addDocName(name, srcFileName);
-                        } catch (Exception e) {
-                            Log.d("attman", "Save File Error");
-                            Toast.makeText(this, "Save File Error", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-
                 } else {
-                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                    Uri srcUri = data.getData();
+                    if (srcUri != null) {
+//                        Log.d("attman", "srcUri: " + srcUri.toString());
+                        addDocToDrawer(srcUri);
+                    } else {
+                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }
@@ -420,10 +335,6 @@ public class subject_media extends AppCompatActivity {
             db.addMedia(name, uri.toString());
 
             Log.d("attman", "Captured: " + uri.toString());
-
-            //            while (true) {
-            //                dispatchTakePictureIntent();
-            //            }
         }
 
         else {
@@ -431,19 +342,40 @@ public class subject_media extends AppCompatActivity {
         }
     }
 
-//    private void saveFileInternal(String path, String fileName) throws IOException {
-    private String saveFileInternal(String srcFilePath, String srcFileName, String srcFileExt) throws IOException {
+    private void addDocToDrawer (Uri srcUri) {
+        boolean srcFilePathFlag = false;
+        String srcFilepath = "";
+        String srcFileName = getFileName(srcUri);
+        String srcFileExt = getFileExt(srcUri);
+        Log.d("attman", "srcFileName: " + srcFileName);
 
-        //        FileOutputStream fileOutputStream = openFileOutput(fileName, MODE_PRIVATE);
-//        File file = new File(path);
-//        byte[] bytes = getBytesFromFile(file);
-//
-//        fileOutputStream.write(bytes);
-//        fileOutputStream.close();
+        try {
+            srcFilepath = getExactPath(this, srcUri, srcFileName);
+            Log.d("attman", "srcFilePath: " + srcFilepath);
+            srcFilePathFlag = true;
+        } catch (Exception e) {
+            Log.d("attman", "srcFilePath Error " + e.getMessage());
+            Toast.makeText(this, "File Path Error", Toast.LENGTH_SHORT).show();
+        }
+
+        if (srcFilePathFlag) {
+            try {
+                String desFilePath = saveFileInternal(srcFilepath, srcFileName, srcFileExt);
+                File file = new File(desFilePath);
+                Uri toSave = Uri.fromFile(file);
+                db.addDocPath(name, toSave.toString());
+                db.addDocName(name, srcFileName);
+            } catch (Exception e) {
+                Log.d("attman", "Save File Error");
+                Toast.makeText(this, "Save File Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private String saveFileInternal(String srcFilePath, String srcFileName, String srcFileExt) throws IOException {
         String desFilePath;
         File srcFile = new File(srcFilePath);
 
-//        try {
         String prefix = srcFileName.replace("." + srcFileExt, "");
         File storageDir = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
@@ -456,15 +388,6 @@ public class subject_media extends AppCompatActivity {
                     "." + srcFileExt,               /* suffix */
                     storageDir                           /* directory */
             );
-        //        } catch (Exception e) {
-//            Log.d("attman", "File creation Error " + e.getMessage());
-//        }
-//
-//        File desFile = File.
-//        Log.d("attman", "Prf: " + prefix + " Ext: " + extension);
-
-    //        try {
-    //            fos = openFileOutput(fileName, MODE_PRIVATE);
 
         FileOutputStream fos = new FileOutputStream(desFile);
         fos.write(getBytesFromFile(srcFile));
@@ -473,25 +396,7 @@ public class subject_media extends AppCompatActivity {
         Log.d("attman", "SAVED FILE: " + desFilePath );
         fos.close();
 
-    //        } catch (FileNotFoundException fee) {
-    //            Log.d("attman", "FNF: " + fee.getMessage());
-    //        } catch (IOException e) {
-    //            Log.d("attman", "IOE: " + e.getMessage());
-    //        }
-
         return desFilePath;
-
-        //        finally {
-//            if (fos != null)
-//            try {
-//                fos.close();
-//            } catch (IOException e){
-//                Log.d("attman", "FIN: " + e.getMessage());
-//            }
-//        }
-//
-//        Log.d("attman", "SAVED FILE: " + getFilesDir() + "/" + fileName);
-//        Log.d("attman", "SAVED FILE: " + getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/" + fileName);
     }
 
     private byte[] getBytesFromFile(File file) throws IOException {
@@ -526,7 +431,6 @@ public class subject_media extends AppCompatActivity {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(c.getType(uri));
     }
-
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -568,55 +472,7 @@ public class subject_media extends AppCompatActivity {
         }
     }
 
-    //                            Intent intent = new Intent();
-//                            intent.setAction(Intent.ACTION_VIEW);
-//                            intent.setDataAndType(selectedFileUri, "application/pdf");
-//                            startActivity(intent);
-
-//                            showPdfFromUri(selectedFileUri);
-//                            data.getData();
-
-//                            String path = data.getData().getLastPathSegment();
-//                            mediaTv.setText(path);
-
-//                            Uri selectedFile = data.getData();
-//                            String[] filePathColumn = { MediaStore.Files.FileColumns.DATA };
-//                            Cursor cursor = getContentResolver().query(selectedFile,filePathColumn, null, null, null);
-//                            cursor.moveToFirst();
-//                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                            String filePath = cursor.getString(columnIndex);
-//                            cursor.close();
-//
-//                            mediaTv.setText(filePath);
-
-//                            db.addMedia(name, selectedFileUri.toString());
-//                            assert selectedFileUri != null;
-//                            db.addMedia(name, selectedFileUri.toString());
-//                            Toast.makeText(subject_media.this, "File Added Successfully", Toast.LENGTH_SHORT).show();
-//                } else
-//                    Toast.makeText(this, "No File Selected.", Toast.LENGTH_SHORT).show();
-//            }
-//
-//
-////                            InputStream inputStream = null;
-////                            try {
-////                                inputStream = getContentResolver().openInputStream(selectedFileUri);
-////                                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-////                                mediaIv.setImageBitmap(bitmap);
-////                            } catch (Exception e) {
-////                                Toast.makeText( this, e.getMessage(), Toast.LENGTH_SHORT).show();
-////                            }
-////                            String s = selectedFileUri.getPath()
-////                                File selectedFile = new File(UriToPath(selectedFileUri));
-////                            mediaTv.setText(selectedFileUri.toString());
-//
-//        }
-
-
     public static String getExactPath(final Context context, final Uri uri, final String fileName) {
-
-//        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
         // DocumentProvider
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (DocumentsContract.isDocumentUri(context, uri)) {
@@ -629,14 +485,11 @@ public class subject_media extends AppCompatActivity {
                     if ("primary".equalsIgnoreCase(type)) {
                         return Environment.getExternalStorageDirectory() + "/" + split[1];
                     }
-
-
                 }
 
                 // DownloadsProvider
                 else if (isDownloadsDocument(uri)) {
 
-//                    String fileName = getFilePath(context, uri);
                     if (fileName != null) {
                         return Environment.getExternalStorageDirectory().toString() + "/Download/" + fileName;
                     }
@@ -701,15 +554,12 @@ public class subject_media extends AppCompatActivity {
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
-    public static String getDataColumn(Context context, Uri uri, String selection,
-                                       String[] selectionArgs) {
-
+    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
         Cursor cursor = null;
         final String column = "_data";
         final String[] projection = {
                 column
         };
-
         try {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
                     null);
@@ -723,7 +573,6 @@ public class subject_media extends AppCompatActivity {
         }
         return null;
     }
-
 
     /**
      * @param uri The Uri to check.
@@ -748,38 +597,6 @@ public class subject_media extends AppCompatActivity {
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
-
-    //    public String getPDFPath(Context context, Uri uri) {
-//
-//        String id = "";
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-//            id = DocumentsContract.getDocumentId(uri);
-//        }
-//        final Uri contentUri = ContentUris.withAppendedId(
-//                Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-//
-//        String[] projection = {MediaStore.Images.Media.DATA};
-//        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-//        if (cursor != null) {
-//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//            cursor.moveToFirst();
-//            return cursor.getString(column_index);
-//        }
-//        return null;
-//
-////        String id = "";
-////        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-////            id = DocumentsContract.getDocumentId(uri);
-////        }
-////        final Uri contentUri = ContentUris.withAppendedId(
-////                Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-////
-////        String[] projection = {MediaStore.Images.Media.DATA};
-////        Cursor cursor = getContentResolver().query(contentUri, projection, null, null, null);
-////        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-////        cursor.moveToFirst();
-////        return cursor.getString(column_index);
-//    }
 
     public String getPath(Context context, Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};

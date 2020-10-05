@@ -64,10 +64,6 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
         final subject subject = subjectList.get(position);
         final int attendanceCriteriaInt = subject.getCriteria();
 
-        //        read attendance criteria from shared preferences
-//        SharedPreferences shrd = context.getSharedPreferences("newInstall", MODE_PRIVATE);
-//        final int attendanceCriteriaInt = shrd.getInt("attendanceCriteria", -1);
-
 //        set bottom margin to 82dp
         if (position + 1 == getItemCount()) {
             setBottomMargin(holder.itemView, (int) (82 * Resources.getSystem().getDisplayMetrics().density));
@@ -76,51 +72,13 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
             setBottomMargin(holder.itemView, 0);
         }
 
-        //   set holder contents
+//   set holder contents
         holder.subjectName.setText(subject.getName());
         holder.progressBar.setIndeterminate(false);
 
         holder.progressBar.setMax(100);
 
-         /* holder.attendance.setText(subject.getAttendance());
-        holder.statusText.setText(subject.getProgress() + "%");
-
-
-//        set color for progress bar and toAttendText accordingly
-        if (subject.getProgress() >= attendanceCriteriaInt) {
-//            progress bar color
-            holder.progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-            holder.progressBar.setProgress(subject.getProgress());
-//            toAttend classes cases
-            if (subject.getAbsent() + subject.getPresent() != 0) {
-                if (attendanceCriteriaInt == 0)
-                    holder.toAttendText.setText("You may take any no. of leaves.");
-                else if (subject.getToAbsent() == 0)
-                    holder.toAttendText.setText("On Track, Don't miss next class to be On Track.");
-                else if (subject.getToAbsent() == 1)
-                    holder.toAttendText.setText("Good going, You may take 1 leave.");
-                else
-                    holder.toAttendText.setText("Good going, You may take " + subject.getToAbsent() + " leaves.");
-            }
-        } else {
-//            progress bar color
-            holder.progressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-            holder.progressBar.setProgress(subject.getProgress());
-//            toAttend classes cases
-            if (subject.getAbsent() + subject.getPresent() != 0) {
-                if (subject.getToPresent() == 1)
-                    holder.toAttendText.setText("Almost there, Attend next class to be On track.");
-                else if (subject.getToPresent() < 0 )
-                    holder.toAttendText.setText("It's Over, You can never be On Track.");
-                else
-                    holder.toAttendText.setText("Buck Up, Attend next " + subject.getToPresent() + " classes to be On Track.");
-            }
-        }
-*/
-
        refresh(holder, position, subjectList);
-
-       //        holder.progressBar.setProgress(subject.getProgress());
 
 // PRESENT CLICK
         holder.presentButton.setOnClickListener(new View.OnClickListener() {
@@ -130,42 +88,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                 int present = db.addPresent(subject.getName());
                 subject.setPresent(present);
 
-            /*                holder.attendance.setText(subject.getAttendance());
-                holder.statusText.setText(subject.getProgress() + "%");
-
-                if (subject.getProgress() >= attendanceCriteriaInt) {
-//            progress bar color
-                    holder.progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-                    holder.progressBar.setProgress(subject.getProgress());
-//            toAttend classes cases
-                    if (subject.getAbsent() + subject.getPresent() != 0) {
-                        if (attendanceCriteriaInt == 0)
-                            holder.toAttendText.setText("You may take any no. of leaves.");
-                        else if (subject.getToAbsent() == 0)
-                            holder.toAttendText.setText("On Track, Don't miss next class to be On Track.");
-                        else if (subject.getToAbsent() == 1)
-                            holder.toAttendText.setText("Good going, You may take 1 leave.");
-                        else
-                            holder.toAttendText.setText("Good going, You may take " + subject.getToAbsent() + " leaves.");
-                    }
-                } else {
-//            progress bar color
-                    holder.progressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-                    holder.progressBar.setProgress(subject.getProgress());
-//            toAttend classes cases
-                    if (subject.getAbsent() + subject.getPresent() != 0) {
-                        if (subject.getToPresent() == 1)
-                            holder.toAttendText.setText("Almost there, Attend next class to be On track.");
-                        else if (subject.getToPresent() < 0 )
-                            holder.toAttendText.setText("It's Over, You can never be On Track.");
-                        else
-                            holder.toAttendText.setText("Buck Up, Attend next " + subject.getToPresent() + " classes to be On Track.");
-                    }
-                }*/
-
                 refresh(holder, position, subjectList);
-
-            //      notifyItemChanged(holder.getAdapterPosition());
             }
 
         });
@@ -178,102 +101,13 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                 int absent = db.addAbsent(subject.getName());
                 subject.setAbsent(absent);
 
-                /*holder.attendance.setText(subject.getAttendance());
-                holder.statusText.setText(subject.getProgress() + "%");
-
-                if (subject.getProgress() >= attendanceCriteriaInt) {
-//            progress bar color
-                    holder.progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-                    holder.progressBar.setProgress(subject.getProgress());
-//            toAttend classes cases
-                    if (subject.getAbsent() + subject.getPresent() != 0) {
-                        if (attendanceCriteriaInt == 0)
-                            holder.toAttendText.setText("You may take any no. of leaves.");
-                        else if (subject.getToAbsent() == 0)
-                            holder.toAttendText.setText("On Track, Don't miss next class to be On Track.");
-                        else if (subject.getToAbsent() == 1)
-                            holder.toAttendText.setText("Good going, You may take 1 leave.");
-                        else
-                            holder.toAttendText.setText("Good going, You may take " + subject.getToAbsent() + " leaves.");
-                    }
-                } else {
-//            progress bar color
-                    holder.progressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-                    holder.progressBar.setProgress(subject.getProgress());
-//            toAttend classes cases
-                    if (subject.getAbsent() + subject.getPresent() != 0) {
-                        if (subject.getToPresent() == 1)
-                            holder.toAttendText.setText("Almost there, Attend next class to be On Track.");
-                        else if (subject.getToPresent() < 0 )
-                            holder.toAttendText.setText("It's Over, You can never be On Track.");
-                        else
-                            holder.toAttendText.setText("Buck Up, Attend next " + subject.getToPresent() + " classes to be On Track.");
-                    }
-                }*/
-
                 refresh(holder, position, subjectList);
-
-            //     notifyItemChanged(holder.getAdapterPosition());
             }
         });
 
-        //        holder.undoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                char c = db.toUndo(subject.getName());
-//                if (c == 'n') {
-//                    Toast.makeText(v.getContext(), "Cannot Undo", Toast.LENGTH_SHORT).show();
-//                } else if (c == 'p') {
-//                   int present = db.subtractPresent(subject.getName());
-//                    subject.setPresent(present);
-//                } else if (c == 'a') {
-//                    int absent = db.subtractAbsent(subject.getName());
-//                    subject.setAbsent(absent);
-//                }
-//
-//                holder.attendance.setText(subject.getAttendance());
-//                holder.statusText.setText(subject.getProgress() + "%");
-//
-//                if (subject.getProgress() >= attendanceCriteriaInt) {
-////            progress bar color
-//                    holder.progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-//                    holder.progressBar.setProgress(subject.getProgress());
-////            toAttend classes cases
-//                    if (subject.getAbsent() + subject.getPresent() != 0) {
-//                        if (attendanceCriteriaInt == 0)
-//                            holder.toAttendText.setText("You may take any no. of leaves.");
-//                        else if (subject.getToAbsent() == 0)
-//                            holder.toAttendText.setText("On Track, Don't miss next class to be On Track.");
-//                        else if (subject.getToAbsent() == 1)
-//                            holder.toAttendText.setText("Good going, You may take 1 leave.");
-//                        else
-//                            holder.toAttendText.setText("Good going, You may take " + subject.getToAbsent() + " leaves.");
-//                    } else
-//                        holder.toAttendText.setText("");
-//                } else {
-////            progress bar color
-//                    holder.progressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-//                    holder.progressBar.setProgress(subject.getProgress());
-////            toAttend classes cases
-//                    if (subject.getAbsent() + subject.getPresent() != 0) {
-//                        if (subject.getToPresent() == 1)
-//                            holder.toAttendText.setText("Almost there, Attend next class to be On track.");
-//                        else if (subject.getToPresent() < 0 )
-//                            holder.toAttendText.setText("It's Over, You can never be On Track.");
-//                        else
-//                            holder.toAttendText.setText("Buck Up, Attend next " + subject.getToPresent() + " classes to be On Track.");
-//                    } else
-//                        holder.toAttendText.setText("");
-//                }
-//                notifyItemChanged(holder.getAdapterPosition());
-//            }
-//        });
-
-// SUB CLICK
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 TextView toAttendText = v.findViewById(R.id.toAttendText);
                 String toAttend = toAttendText.getText().toString();
 
@@ -282,7 +116,6 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                 intent.putExtra("toAttendText", toAttend);
 
                 context.startActivity(intent);
-
             }
         });
 
@@ -318,41 +151,6 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                             int absent = db.subtractAbsent(subject.getName());
                             subject.setAbsent(absent);
                         }
-            /*
-                        holder.attendance.setText(subject.getAttendance());
-                        holder.statusText.setText(subject.getProgress() + "%");
-
-                        if (subject.getProgress() >= attendanceCriteriaInt) {
-                            //  progress bar color
-                            holder.progressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-                            holder.progressBar.setProgress(subject.getProgress());
-                            //    toAttend classes cases
-                            if (subject.getAbsent() + subject.getPresent() != 0) {
-                                if (attendanceCriteriaInt == 0)
-                                    holder.toAttendText.setText("You may take any no. of leaves.");
-                                else if (subject.getToAbsent() == 0)
-                                    holder.toAttendText.setText("On Track, Don't miss next class to be On Track.");
-                                else if (subject.getToAbsent() == 1)
-                                    holder.toAttendText.setText("Good going, You may take 1 leave.");
-                                else
-                                    holder.toAttendText.setText("Good going, You may take " + subject.getToAbsent() + " leaves.");
-                            } else
-                                holder.toAttendText.setText("");
-                        } else {
-                            //    progress bar color
-                            holder.progressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-                            holder.progressBar.setProgress(subject.getProgress());
-                            //    toAttend classes cases
-                            if (subject.getAbsent() + subject.getPresent() != 0) {
-                                if (subject.getToPresent() == 1)
-                                    holder.toAttendText.setText("Almost there, Attend next class to be On track.");
-                                else if (subject.getToPresent() < 0)
-                                    holder.toAttendText.setText("It's Over, You can never be On Track.");
-                                else
-                                    holder.toAttendText.setText("Buck Up, Attend next " + subject.getToPresent() + " classes to be On Track.");
-                            } else
-                                holder.toAttendText.setText("");
-                        }*/
 
                         refresh(holder, position, subjectList);
 
@@ -409,40 +207,16 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                         editText_rename.setInputType(InputType.TYPE_CLASS_TEXT);
                         editText_rename.setMaxLines(1);
                         editText_rename.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
-                //    final String newName = "";
 
                         editText_rename.setText(subject.getName());
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                         builder.setTitle("Rename Subject");
                         builder.setMessage("Confirm to Rename Subject");
                         builder.setView(editText_rename);
-            //           builder.setCancelable(false);
 
                         builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                //                                newName = editText_rename.getText().toString().trim().toUpperCase();
-////                                Toast.makeText(v.getContext(), ""+newName, Toast.LENGTH_SHORT).show();
-//
-//                                List<String> subjectsName = db.getSubjectsName();
-//                                subjectsName.remove(subject.getName());
-//
-//                                if (newName.equals(""))
-//                                    Toast.makeText(v.getContext(), "Subject Name can't be Empty", Toast.LENGTH_SHORT).show();
-//                                else if ( subjectsName.contains(newName) )
-//                                    Toast.makeText(v.getContext(), "Duplicate Subject Found", Toast.LENGTH_SHORT).show();
-//                                else {
-//                                    if (!newName.equals(subject.getName())) {
-//                                        db.updateName(subject.getName(), newName);
-//                                        Toast.makeText(v.getContext(), "Changes Saved Successfully", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                    dialog.dismiss();
-//                                    bottomSheetDialog.dismiss();
-//
-//                                    //  to refresh and remove deleted item from screen
-//                                    subjectList = db.getSubjects();
-//                                    adapter.notifyDataSetChanged();
-//                                }
 
                             }
                         });
@@ -459,8 +233,6 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                             @Override
                             public void onClick(View v) {
                                 newName = editText_rename.getText().toString().trim().toUpperCase();
-                //       Toast.makeText(v.getContext(), ""+newName, Toast.LENGTH_SHORT).show();
-
                                 List<String> subjectsName = db.getSubjectsName();
                                 subjectsName.remove(subject.getName());
 
@@ -490,8 +262,6 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                     @Override
                     public void onClick(final View v) {
                         bottomSheetDialog.dismiss();
-                //             Toast.makeText(v.getContext(), "Delete Clicked..", Toast.LENGTH_SHORT).show();
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                         builder.setTitle("Delete Subject");
                         builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
@@ -517,12 +287,9 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
                         builder.show();
                     }
                 });
-
                 return true;
             }
         });
-
-
     }
 
 //    How many items?
@@ -539,12 +306,8 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
         TextView statusText;
         TextView toAttendText;
         ProgressBar progressBar;
-//        ProgressBar progressBar2;
         Button presentButton;
         Button absentButton;
-//        Button undoButton;
-//        RotateDrawable rotateDrawable;
-
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -553,14 +316,10 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
             subjectName = itemView.findViewById(R.id.subjectName);
             attendance = itemView.findViewById(R.id.attendance);
             progressBar = itemView.findViewById(R.id.progressBar);
-//            progressBar2 = itemView.findViewById(R.id.progressBar2);
             statusText = itemView.findViewById(R.id.statusText);
             toAttendText = itemView.findViewById(R.id.toAttendText);
             presentButton = itemView.findViewById(R.id.presentButton);
             absentButton = itemView.findViewById(R.id.absentButton);
-//            undoButton = itemView.findViewById(R.id.undoButton);
-//            progressBar2.setIndeterminate(false);
-//            rotateDrawable = (RotateDrawable) progressBar2.getIndeterminateDrawable();
         }
 
         @Override

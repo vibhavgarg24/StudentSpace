@@ -30,7 +30,6 @@ public class ImageViewer extends AppCompatActivity {
     ImageButton imageOptionsShare;
     MyDbHandler db;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,17 +117,13 @@ public class ImageViewer extends AppCompatActivity {
     }
 
     private void shareImage(final View v, final int position) {
-//        RequestBuilder<File> file = Glide.with(v.getContext()).asFile().load(Uri.parse(images[position]));
         Uri uri = Uri.parse(images[position]);
-//        Uri uri = Uri.fromFile(new File(images[position]));
         String path = uri.getPath();
         File file = new File(path);
-//        Uri urimethod = Uri.fromFile(file);
         Uri uri1 = FileProvider.getUriForFile(v.getContext(), "com.example.android.fileprovider", file);
         Log.d("attman", "Share Fp: " + uri1);
-//        Log.d("attman", "Share uri: "+urimethod);
+//        Log.d("attman", "Share uri: "+ urimethod);
 
-//
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_STREAM, uri1);

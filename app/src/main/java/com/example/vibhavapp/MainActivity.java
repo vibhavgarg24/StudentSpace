@@ -1,7 +1,6 @@
 package com.example.vibhavapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
@@ -113,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
             seekBar.setProgress(progress);
             attendanceCriteria.setText(progress + "%");
         }
-
     }
 
     public void minus1ButtonClick (View view) {
@@ -126,6 +123,5 @@ public class MainActivity extends AppCompatActivity {
             attendanceCriteria.setText(progress + "%");
         }
     }
-
 
 }

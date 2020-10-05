@@ -28,16 +28,13 @@ public class HomeFragment extends Fragment {
     public static ArrayList<String> subjectNameList;
 
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-    //        final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-    //                textView.setText(s);
             }
         });
 
@@ -67,7 +64,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        getActivity().setTitle("Home");
         MyDbHandler db = new MyDbHandler(getContext());
         subjectArrayList = db.getSubjects();
         subjectNameList = db.getSubjectsName();
@@ -79,50 +75,5 @@ public class HomeFragment extends Fragment {
 
         recyclerViewAdapter = new recyclerViewAdapter (getContext(), subjectArrayList);
         recyclerView.setAdapter(recyclerViewAdapter);
-//        }
     }
-
-    //    @Override
-//    public void onHiddenChanged(boolean hidden) {
-//        super.onHiddenChanged(hidden);
-//        if (!hidden) {
-//            if (subjectArrayList.isEmpty())
-//                emptySub_image.setVisibility(View.VISIBLE);
-//            else
-//                emptySub_image.setVisibility(View.INVISIBLE);
-//        }
-//    }
-
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        if (subjectArrayList.isEmpty())
-//            emptySub_image.setVisibility(View.VISIBLE);
-//        else
-//            emptySub_image.setVisibility(View.INVISIBLE);
-//    }
-
-
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser) {
-//            if (subjectArrayList.isEmpty())
-//                emptySub_image.setVisibility(View.VISIBLE);
-//            else
-//                emptySub_image.setVisibility(View.INVISIBLE);
-//        }
-//    }
-
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        if (subjectArrayList.isEmpty())
-//            emptySub_image.setVisibility(View.VISIBLE);
-//        else
-//            emptySub_image.setVisibility(View.INVISIBLE);
-//
-//    }
 }

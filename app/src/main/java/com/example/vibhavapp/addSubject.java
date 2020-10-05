@@ -2,10 +2,7 @@ package com.example.vibhavapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
-import android.text.InputFilter;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.example.vibhavapp.data.MyDbHandler;
 import com.google.android.material.textfield.TextInputEditText;

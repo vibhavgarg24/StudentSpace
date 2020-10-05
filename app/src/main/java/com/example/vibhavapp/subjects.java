@@ -29,50 +29,11 @@ public class subjects extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subjects);
 
-    ////        recyclerView Initialization
-//        recyclerView = findViewById(R.id.recyclerView);
-////        recyclerView.addItemDecoration(new DividerItemDecoration(subjects.this,LinearLayoutManager.VERTICAL));
-//        recyclerView.setHasFixedSize(true);
-//
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-    //        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-    //        navigationView.setNavigationItemSelectedListener(this);
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                int id = item.getItemId();
-//                Log.d("attman", "Edit_act");
-//                if (id == R.id.nav_criteriaEdit) {
-//                    item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//                        @Override
-//                        public boolean onMenuItemClick(MenuItem item) {
-//                            startActivity(new Intent(subjects.this, CriteriaEdit.class));
-//                            return true;
-//                        }
-//                    });
-////                    Toast.makeText(subjects.this, "Edit_activity", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                drawer = findViewById(R.id.drawer_layout);
-//                drawer.closeDrawer(GravityCompat.START);
-//
-//                return true;
-//            }
-//        });
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home)
                 .setDrawerLayout(drawer)
@@ -81,75 +42,7 @@ public class subjects extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-    //        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-//            @Override
-//            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-//
-//                int id = destination.getId();
-//                FloatingActionButton fab = findViewById(R.id.fab);
-//                switch (id) {
-//                    case R.id.nav_editCriteria :
-//                        fab.hide();
-//                        break;
-//                    default:
-//                        fab.show();
-//                }
-//            }
-//        });
-
-
-//        DB Creation
-//        MyDbHandler db = new MyDbHandler(subjects.this);
-//
-////        db.addSubject(" ");
-////        db.addPresent("Hindi");
-////        db.addAbsent("Hindi");
-//
-//        subjectArrayList = db.getSubjects();
-//        subjectNameList = db.getSubjectsName();
-//
-////        Log.d("attman",""+subjectArrayList.size());
-//
-////        for (subject subject: subjectArrayList) {
-////            Log.d("attman" ,"Id: " + subject.getId() +"\n" +
-////                                        "Name: " + subject.getName() +"\n" +
-////                                        "Present: " + subject.getPresent() +"\n" +
-////                                        "Absent: " + subject.getAbsent() +"\n"  );
-////        }
-////        subjectNameList.add(sub2.getName());
-////        Log.d("attman", subjectArrayList.get(0).getName());
-//
-////        Using recyclerView
-//        recyclerViewAdapter = new recyclerViewAdapter(subjects.this, subjectArrayList);
-//        recyclerView.setAdapter(recyclerViewAdapter);
     }
-
-    //    @Override
-//    public void onResume() {
-//
-//        super.onResume();
-//        MyDbHandler db = new MyDbHandler(subjects.this);
-//        subjectArrayList = db.getSubjects();
-//        subjectNameList = db.getSubjectsName();
-//        recyclerViewAdapter = new recyclerViewAdapter(subjects.this, subjectArrayList);
-//        recyclerView.setAdapter(recyclerViewAdapter);
-//    }
-
-
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//
-//        if (hasFocus == true) {
-//            super.onWindowFocusChanged(hasFocus);
-//            MyDbHandler db = new MyDbHandler(subjects.this);
-//            subjectArrayList = db.getSubjects();
-//            subjectNameList = db.getSubjectsName();
-//            recyclerViewAdapter = new recyclerViewAdapter(subjects.this, subjectArrayList);
-//            recyclerView.setAdapter(recyclerViewAdapter);
-//        }
-////        super.onWindowFocusChanged(hasFocus);
-//
-//    }
 
     boolean doubleBackToExitPressedOnce = false;
     @Override
@@ -194,22 +87,6 @@ public class subjects extends AppCompatActivity {
         Intent intent = new Intent (this, addSubject.class);
         startActivity(intent);
     }
-
-    //    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        int id = item.getItemId();
-//        Log.d("attman", "Edit_act");
-//        if (id == R.id.nav_criteriaEdit) {
-//            Toast.makeText(subjects.this, "Edit_activity", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(subjects.this, CriteriaEdit.class);
-//            startActivity(intent);
-//        }
-//
-//        drawer = findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//
-//        return true;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

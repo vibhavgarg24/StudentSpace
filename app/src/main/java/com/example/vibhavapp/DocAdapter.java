@@ -14,19 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.vibhavapp.adapter.recyclerViewAdapter;
 import com.example.vibhavapp.data.MyDbHandler;
-
 import java.io.File;
-import java.util.ArrayList;
 
 public class DocAdapter extends RecyclerView.Adapter<DocAdapter.ViewHolder> {
     private Context context;
@@ -36,7 +31,6 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.ViewHolder> {
     private String name;
     private DocAdapter adapter;
     private Uri uri;
-//    private Uri uri1;
 
     private ActionMode actionMode;
     private DocFragment docFragment;
@@ -57,7 +51,6 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.doc_card, parent, false);
-//        return new ViewHolder(view, docFragment);
         return new ViewHolder(view);
     }
 
@@ -66,7 +59,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.ViewHolder> {
 
         Uri uri1 = null;
 
-        // fixed hanging view for null string
+// fixed hanging view for null string
         if (docPathList[0].equals("")) {
             holder.itemView.setVisibility(View.GONE);
             holder.itemView.setEnabled(false);
@@ -192,7 +185,6 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.ViewHolder> {
                 db.deleteDocName(name, longClickPosition);
                 db.deleteDocPath(name, longClickPosition);
                 docFragment.onResume();
-//                adapter.notifyDataSetChanged();
             }
         });
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -202,7 +194,6 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.ViewHolder> {
             }
         });
         builder.show();
-//        adapter.notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -216,19 +207,8 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.ViewHolder> {
             docName = itemView.findViewById(R.id.docName);
             docIcon = itemView.findViewById(R.id.docIcon);
 
-//            itemView.setOnLongClickListener(docFragment);
-//            itemView.setOnClickListener(this);
         }
-
-//        @Override
-//        public void onClick(View v) {
-//            docFragment.makeSekection(v, getAdapterPosition());
-//        }
     }
-
-//    public void removeItems(ArrayList<Integer> selectedList) {
-//        Log.d("attman", "Menu Delete: " + selectedList);
-//    }
 
     private String getFileExt(Uri uri) {
         ContentResolver c = context.getContentResolver();

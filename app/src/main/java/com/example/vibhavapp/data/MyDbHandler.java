@@ -10,10 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import com.example.vibhavapp.model.subject;
 import com.example.vibhavapp.params.Params;
-import com.example.vibhavapp.subjects;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -384,10 +381,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
         if (stringUris.equals(""))
             return array;
 
-//        ArrayList<String> list = new ArrayList<>();
         array = stringUris.split(",");
-
-//        list.addAll(Arrays.asList(array));
 
         return array;
     }
@@ -478,10 +472,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
         if (stringUris.equals(""))
             return array;
 
-//        ArrayList<String> list = new ArrayList<>();
         array = stringUris.split(",");
-
-//        list.addAll(Arrays.asList(array));
 
         return array;
     }

@@ -13,7 +13,6 @@ import java.util.Arrays;
 
 public class ImageFragment extends Fragment {
 
-    //    subject_media subjectMedia;
     static GridView gridView;
     String[] images;
     static String name;
@@ -23,15 +22,12 @@ public class ImageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+// Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_image, container, false);
 
         MyDbHandler db = new MyDbHandler(getContext());
         images = db.getMedia(name);
-
-//        name = subjectMedia.name;
 
         gridView = root.findViewById(R.id.gridView);
         gridView.setAdapter(new GridViewAdapter(getContext(), images));
@@ -46,24 +42,6 @@ public class ImageFragment extends Fragment {
                 }
             }
         });
-
-//        fabImages = root.findViewById(R.id.fabImages);
-//        root.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                fabImages.collapse();
-//            }
-//        });
-//        fabImages = root.findViewById(R.id.fabImages);
-//        fabImages.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent1 = new Intent(Intent.ACTION_PICK);
-//                intent1.setType("image/*");
-//                startActivityForResult(intent1, IMAGE_PICK_REQUEST_CODE);
-//            }
-//        });
-//
         return root;
     }
 
