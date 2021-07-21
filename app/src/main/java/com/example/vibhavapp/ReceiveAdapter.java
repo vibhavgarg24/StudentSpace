@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,11 @@ import android.webkit.MimeTypeMap;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.vibhavapp.data.MyDbHandler;
+import com.google.android.material.snackbar.Snackbar;
+
 import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,12 +37,14 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ViewHold
     MyDbHandler db;
     Intent intent;
     String name;
+    ConstraintLayout parentLayout;
 
-    public ReceiveAdapter(Context context, ArrayList<String> recSubNameList, MyDbHandler db, Intent intent) {
+    public ReceiveAdapter(Context context, ArrayList<String> recSubNameList, MyDbHandler db, Intent intent, ConstraintLayout parentLayout) {
         this.context = context;
         this.recSubNameList = recSubNameList;
         this.db = db;
         this.intent = intent;
+        this.parentLayout = parentLayout;
     }
 
     @NonNull
@@ -50,6 +56,8 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ReceiveAdapter.ViewHolder holder, final int position) {
+
+
         name = recSubNameList.get(position);
         holder.recSubName.setText(name);
 
@@ -90,7 +98,10 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ViewHold
             String oldNotes = db.getNotes(subjectName);
             String newNotes = oldNotes + "\n" + sharedText;
             db.addNotes(subjectName, newNotes);
-            Toast.makeText(context, "Shared Text Added to Notes of " + subjectName, Toast.LENGTH_LONG).show();
+
+            Snackbar sb = Snackbar.make(parentLayout, "Shared Text Added to Notes of " + subjectName, Snackbar.LENGTH_LONG);
+            sb.show();
+//            Toast.makeText(context, "Shared Text Added to Notes of " + subjectName, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(context, "No Notes to Add", Toast.LENGTH_SHORT).show();
         }
@@ -105,9 +116,12 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ViewHold
             Uri uri1 = Uri.fromFile(file);
             db.addMedia(subjectName, uri1.toString());
 
-            Toast.makeText(context, "Shared Image Added to Drawer of " + subjectName, Toast.LENGTH_LONG).show();
             Log.d("attman", "Path: " + path + " Name: " + fileName);
             Log.d("attman", "Uri: " + uri1.toString() + " prev: " + uri.toString());
+
+            Snackbar sb = Snackbar.make(parentLayout, "Shared Image Added to Drawer of " + subjectName, Snackbar.LENGTH_LONG);
+            sb.show();
+//            Toast.makeText(context, "Shared Image Added to Drawer of " + subjectName, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(context, "No Image to Add", Toast.LENGTH_SHORT).show();
         }
@@ -120,12 +134,18 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ViewHold
             for (int i = 0; i < count; i++) {
                 Uri uri = (Uri) imageUriList.get(i);
                 String path = getPath(context, uri);
+                String fileName = getFileName(uri);
                 File file = new File(path);
                 Uri uri1 = Uri.fromFile(file);
                 db.addMedia(subjectName, uri1.toString());
+
+                Log.d("attman", "Path: " + path + " Name: " + fileName);
                 Log.d("attman", "Uri: " + uri1.toString() + " prev: " + uri.toString());
             }
-            Toast.makeText(context, "Shared Images Added to Drawer of " + subjectName, Toast.LENGTH_LONG).show();
+
+            Snackbar sb = Snackbar.make(parentLayout, "Shared Images Added to Drawer of " + subjectName, Snackbar.LENGTH_LONG);
+            sb.show();
+//            Toast.makeText(context, "Shared Images Added to Drawer of " + subjectName, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(context, "No Images to Add", Toast.LENGTH_SHORT).show();
         }
@@ -136,7 +156,10 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ViewHold
         if (srcUri != null) {
 //            Log.d("attman", "srcUri: " + srcUri.toString());
             addDocToDrawer(srcUri, subjectName);
-            Toast.makeText(context, "Shared Document Added to Drawer of " + subjectName, Toast.LENGTH_LONG).show();
+
+            Snackbar sb = Snackbar.make(parentLayout, "Shared Document Added to Drawer of " + subjectName, Snackbar.LENGTH_LONG);
+            sb.show();
+//            Toast.makeText(context, "Shared Document Added to Drawer of " + subjectName, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(context, "No Document to Add", Toast.LENGTH_SHORT).show();
         }
@@ -150,7 +173,10 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ViewHold
                 Uri srcUri = (Uri) docUriList.get(i);
                 addDocToDrawer(srcUri, subjectName);
             }
-            Toast.makeText(context, "Shared Documents Added to Drawer of " + subjectName, Toast.LENGTH_LONG).show();
+
+            Snackbar sb = Snackbar.make(parentLayout, "Shared Documents Added to Drawer of " + subjectName, Snackbar.LENGTH_LONG);
+            sb.show();
+//            Toast.makeText(context, "Shared Documents Added to Drawer of " + subjectName, Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(context, "No Documents to Add", Toast.LENGTH_SHORT).show();
         }

@@ -1,12 +1,16 @@
 package com.example.vibhavapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.widget.Toast;
 import com.example.vibhavapp.data.MyDbHandler;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 public class ReceiveMedia extends AppCompatActivity {
@@ -14,6 +18,7 @@ public class ReceiveMedia extends AppCompatActivity {
     private RecyclerView recRecyclerView;
     private ReceiveAdapter receiveAdapter;
     private ArrayList<String > recSubNames;
+    private ConstraintLayout parentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +26,8 @@ public class ReceiveMedia extends AppCompatActivity {
         setContentView(R.layout.activity_receive_media);
 
         getSupportActionBar().setTitle("Add Media to..");
+
+        parentLayout = findViewById(R.id.recMediaParentLayout);
 
 //         DB Creation
         MyDbHandler db = new MyDbHandler(this);
@@ -32,7 +39,9 @@ public class ReceiveMedia extends AppCompatActivity {
         String type = intent.getType();
 
         if (recSubNames.isEmpty()) {
-            Toast.makeText(this, "No Subject Found", Toast.LENGTH_SHORT).show();
+            Snackbar sb = Snackbar.make(parentLayout, "No Subject Found. Add a Subject first, to use this feature.", Snackbar.LENGTH_LONG);
+            sb.show();
+//            Toast.makeText(this, "No Subject Found", Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -42,7 +51,7 @@ public class ReceiveMedia extends AppCompatActivity {
             recRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 //        Using RecyclerView
-            receiveAdapter = new ReceiveAdapter(this, recSubNames, db, intent);
+            receiveAdapter = new ReceiveAdapter(this, recSubNames, db, intent, parentLayout);
             recRecyclerView.setAdapter(receiveAdapter);
 
             if (Intent.ACTION_SEND.equals(action) && type != null) {
