@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.vibhavapp.ui.home.HomeFragment"
+        android:name="com.example.studentspace.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
-        android:name="com.example.vibhavapp.ui.home.HomeSecondFragment"
+        android:name="com.example.studentspace.ui.home.HomeSecondFragment"
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
@@ -30,12 +30,12 @@
     </fragment>
     <activity
         android:id="@+id/nav_criteriaEdit"
-        android:name="com.example.vibhavapp.CriteriaEdit"
+        android:name="com.example.studentspace.CriteriaEdit"
         android:label="CriteriaEdit"
         tools:layout="@layout/activity_criteria_edit"/>
     <activity
         android:id="@+id/nav_dailyReminder"
-        android:name="com.example.vibhavapp.DailyReminder"
+        android:name="com.example.studentspace.DailyReminder"
         android:label="Daily Reminder"
         tools:layout="@layout/activity_daily_reminder" />
 

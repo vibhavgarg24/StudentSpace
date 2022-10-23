@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.vibhavapp">
+    package="com.example.studentspace">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,64 +18,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReceiveMedia">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
 
-            <intent-filter>
-                <action android:name="android.intent.action.SEND_MULTIPLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="*/*" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEND_MULTIPLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="*/*" />
-            </intent-filter>
-
-        </activity>
-        <activity android:name=".DailyReminder"
-            android:parentActivityName=".subjects"
+        <activity android:name="com.example.studentspace.DailyReminder"
+            android:parentActivityName="com.example.studentspace.subjects"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".ImageViewer" />
-        <activity android:name=".subject_media"
+        <activity android:name="com.example.studentspace.ImageViewer" />
+        <activity android:name="com.example.studentspace.subject_media"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".CriteriaEdit"
-            android:parentActivityName=".subjects"
+        <activity android:name="com.example.studentspace.CriteriaEdit"
+            android:parentActivityName="com.example.studentspace.subjects"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".insideSubject"
-            android:parentActivityName=".subjects"
+        <activity android:name="com.example.studentspace.insideSubject"
+            android:parentActivityName="com.example.studentspace.subjects"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".subjects"
+        <activity android:name="com.example.studentspace.subjects"
             android:label="@string/title_activity_subjects"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".addSubject"
-            android:parentActivityName=".subjects"
+        <activity android:name="com.example.studentspace.addSubject"
+            android:parentActivityName="com.example.studentspace.subjects"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.studentspace.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -83,7 +52,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".NotificationReceiver" />
+        <receiver android:name="com.example.studentspace.NotificationReceiver" />
 
         <provider android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
